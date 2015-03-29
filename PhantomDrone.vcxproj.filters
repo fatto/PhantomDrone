@@ -11,9 +11,10 @@
       <Filter>remoteApi</Filter>
     </ClCompile>
     <ClCompile Include="PhantomDrone.cpp" />
-    <ClCompile Include="Haptic.cpp" />
     <ClCompile Include="Drone.cpp" />
     <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="Phantom.cpp" />
+    <ClCompile Include="XInput.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\extApiCustomConst.h">
@@ -40,10 +41,12 @@
     <ClInclude Include="remoteApi\extApiPlatform.h">
       <Filter>remoteApi</Filter>
     </ClInclude>
-    <ClInclude Include="Haptic.hpp" />
     <ClInclude Include="Drone.hpp" />
     <ClInclude Include="Controller.hpp" />
     <ClInclude Include="ArrayMath.hpp" />
+    <ClInclude Include="Copter.hpp" />
+    <ClInclude Include="Phantom.hpp" />
+    <ClInclude Include="XInput.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">

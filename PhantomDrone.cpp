@@ -21,7 +21,8 @@
 //static int portNb = 19997;
 
 
-#include "Haptic.hpp"
+#include "Phantom.hpp"
+#include "XInput.hpp"
 #include "Drone.hpp"
 #include "Controller.hpp"
 #include "ArrayMath.hpp"
@@ -48,15 +49,16 @@ int main(int argc, char* argv[])
 		return -1;
 	}*/
 
-	Haptic phantom;
+	//Phantom phantom;
+	XInput pad;
 	Drone drone;
-	Controller controller(drone);
+	Controller<Drone> controller(drone);
 
 	short keystate;
-	auto destination = std::array<float, 3>{ 0.f, 0.f, 0.8f};
-	auto last_displ = std::array<float, 3>{0.f, 0.f, 0.f};
-	auto angle = 0.f;
-	auto last_angle = 0.f;
+	auto destination = std::array<double, 3>{ 0.0, 0.0, 0.8};
+	auto last_displ = std::array<double, 3>{0.0, 0.0, 0.0};
+	auto angle = 0.0;
+	auto last_angle = 0.0;
 	bool update_destination = false, update_angle = false;
 	do
 	{
@@ -64,20 +66,23 @@ int main(int argc, char* argv[])
 		keystate = GetAsyncKeyState(VK_ESCAPE);
 		std::chrono::milliseconds dura(2);
 		//std::this_thread::sleep_for(dura);
-		
+
 		//auto pos = test.Position();
-		auto haptic_status = phantom.Status();
+		/*auto haptic_status = phantom.Status();*/
+		auto haptic_status = pad.Status();
 		auto drone_status = drone.Status();
-		auto displ = std::array<float, 3>{ float(haptic_status.position[0] * 0.01), float(haptic_status.position[1] * 0.01), float(haptic_status.position[2] * 0.01)};
-		std::array<float, 3> dest;
-		float ang;
+		std::cout << haptic_status.position[0] << " " << haptic_status.position[1] << " " << haptic_status.position[2] << std::endl;
+		// auto displ = std::array<double, 3>{ haptic_status.position[0] * 0.01, haptic_status.position[1] * 0.01, haptic_status.position[2] * 0.01};
+		auto displ = std::array<double, 3>{ haptic_status.position[0], haptic_status.position[1], haptic_status.position[2]};
+		std::array<double, 3> dest;
+		double ang;
 		if (haptic_status.button[0])
 		{
 			dest = destination + displ;
 			last_displ = displ;
 			update_destination = true;
 		}
-		else if(update_destination)
+		else if (update_destination)
 		{
 			destination = destination + last_displ;
 			dest = destination;
@@ -118,59 +123,60 @@ int main(int argc, char* argv[])
 		//std::cout << destination[0] << " " << destination[1] << " " << destination[2] << " " << haptic_status.gimbal[2] << std::endl;
 		//controller.Go(destination + std::array<float, 3>{ float(displ[0] * 0.01), float(displ[1] * 0.01), float(displ[2] * 0.01)}, float(haptic_status.gimbal[2]));
 		//test.Pool();
-		controller.Go(dest, ang);
+
+		controller.Go(dest, { 0.0, 0.0, ang });
 	} while (!((1 << 16) & keystate));
 
 
-    //HDErrorInfo error;
+	//HDErrorInfo error;
 
-    //HHD hHD = hdInitDevice(HD_DEFAULT_DEVICE);
-    //if (HD_DEVICE_ERROR(error = hdGetError()))
-    //{
-    //    //hduPrintError(stderr, &error, "Failed to initialize haptic device");
+	//HHD hHD = hdInitDevice(HD_DEFAULT_DEVICE);
+	//if (HD_DEVICE_ERROR(error = hdGetError()))
+	//{
+	//    //hduPrintError(stderr, &error, "Failed to initialize haptic device");
 
-    //    fprintf(stderr, "\nPress any key to quit.\n");
-    //    return -1;
-    //}
+	//    fprintf(stderr, "\nPress any key to quit.\n");
+	//    return -1;
+	//}
 
-    //printf("Anchored Spring Force Example\n");
+	//printf("Anchored Spring Force Example\n");
 
-    ///* Schedule the haptic callback function for continuously monitoring the
-    //   button state and rendering the anchored spring force. */
-    //gCallbackHandle = hdScheduleAsynchronous(
-    //    AnchoredSpringForceCallback, 0, HD_MAX_SCHEDULER_PRIORITY);
+	///* Schedule the haptic callback function for continuously monitoring the
+	//   button state and rendering the anchored spring force. */
+	//gCallbackHandle = hdScheduleAsynchronous(
+	//    AnchoredSpringForceCallback, 0, HD_MAX_SCHEDULER_PRIORITY);
 
-    //hdEnable(HD_FORCE_OUTPUT);
+	//hdEnable(HD_FORCE_OUTPUT);
 
-    ///* Query the max closed loop control stiffness that the device
-    //   can handle. Using a value beyond this limit will likely cause the 
-    //   device to buzz. */
-    //hdGetDoublev(HD_NOMINAL_MAX_STIFFNESS, &gMaxStiffness);
+	///* Query the max closed loop control stiffness that the device
+	//   can handle. Using a value beyond this limit will likely cause the 
+	//   device to buzz. */
+	//hdGetDoublev(HD_NOMINAL_MAX_STIFFNESS, &gMaxStiffness);
 
-    ///* Start the haptic rendering loop. */
-    //hdStartScheduler();
-    //if (HD_DEVICE_ERROR(error = hdGetError()))
-    //{
-    //    //hduPrintError(stderr, &error, "Failed to start scheduler");
-    //    fprintf(stderr, "\nPress any key to quit.\n");
-    //    return -1;
-    //}
+	///* Start the haptic rendering loop. */
+	//hdStartScheduler();
+	//if (HD_DEVICE_ERROR(error = hdGetError()))
+	//{
+	//    //hduPrintError(stderr, &error, "Failed to start scheduler");
+	//    fprintf(stderr, "\nPress any key to quit.\n");
+	//    return -1;
+	//}
 
-    ///* Start the main application loop. */
-    //mainLoop();
+	///* Start the main application loop. */
+	//mainLoop();
 
-    ///* Cleanup by stopping the haptics loop, unscheduling the asynchronous
-    //   callback, disabling the device. */
-    //hdStopScheduler();
-    //hdUnschedule(gCallbackHandle);
-    //hdDisableDevice(hHD);
+	///* Cleanup by stopping the haptics loop, unscheduling the asynchronous
+	//   callback, disabling the device. */
+	//hdStopScheduler();
+	//hdUnschedule(gCallbackHandle);
+	//hdDisableDevice(hHD);
 
-    return 0;
+	return 0;
 }
 
 /******************************************************************************
- Main loop.  
- Detects and interprets keypresses.  Monitors and initiates error recovery if 
+ Main loop.
+ Detects and interprets keypresses.  Monitors and initiates error recovery if
  necessary.
 ******************************************************************************/
 //void mainLoop()

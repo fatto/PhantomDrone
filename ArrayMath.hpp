@@ -2,24 +2,24 @@
 
 #include <array>
 
-using array3f = std::array<float, 3>;
+using array3d = std::array<double, 3>;
 
-inline array3f operator+(const array3f& l, const array3f& r)
+inline array3d operator+(const array3d& l, const array3d& r)
 {
 	return { l[0] + r[0], l[1] + r[1], l[2] + r[2] };
 }
 
-inline array3f operator-(const array3f& l, array3f& r)
+inline array3d operator-(const array3d& l, array3d& r)
 {
 	return{ l[0] - r[0], l[1] - r[1], l[2] - r[2] };
 }
 
-inline array3f operator*(const array3f& l, const float& r)
+inline array3d operator*(const array3d& l, const double& r)
 {
 	return{ l[0] * r, l[1] * r, l[2] * r };
 }
 
-inline array3f operator*(const float& r, const array3f& l)
+inline array3d operator*(const double& r, const array3d& l)
 {
 	return{ l[0] * r, l[1] * r, l[2] * r };
 }

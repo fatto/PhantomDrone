@@ -1,5 +1,7 @@
 #pragma once
 
+#include "HID.hpp"
+
 #include <cassert>
 #include <functional>
 #include <mutex>
@@ -10,37 +12,29 @@
 #include <HDU/hduVector.h>
 
 
-class Haptic
+class Phantom : HID
 {
 	HHD hHD; HDSchedulerHandle gCallbackHandle;
 	std::array<bool, 2> button;
 	hduVector3Dd start_position, position;
-	hduVector3Dd force;
+	hduVector3Dd update_force;
 	hduVector3Dd start_gimbal, gimbal;
 
 	HDdouble max_force;
 
 	//std::function<HDCallbackCode HDCALLBACK(void*)> callback;
-	std::mutex device_mutex;
+	mutable std::mutex device_mutex;
 public:
-	struct StatusStruct
-	{
-		std::array<bool, 2> button;
-		//std::array<double, 3> position;
-		std::array<double, 3> position;
-		std::array<double, 3> gimbal;
-	};
-	Haptic();
-	~Haptic();
+	Phantom();
+	~Phantom();
+	
 	/*
 		position and gimbal sono la differenza rispetto alla posizione e l'orientamento alla pressione dei relativi bottoni (botton_1 displacement, botton_2 gimbal)
 		position mm
 		gimbal rad
 	*/
-	StatusStruct Status();
-	/*std::array<double, 3> Position();
-	std::array<double, 3> Displacement();*/
-	void Force(std::array<double, 3> f);
+	virtual StatusStruct Status() override;
+	virtual void Force(std::array<double, 3> f) override;
 
 private:
 	bool testDevice();

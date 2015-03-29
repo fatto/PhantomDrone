@@ -482,7 +482,7 @@ copy "$(IntDir)\$(TargetFileName)" "$(SolutionDir)\..\..\bin\$(PlatformName)\HD<
   <ItemGroup>
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Drone.cpp" />
-    <ClCompile Include="Haptic.cpp" />
+    <ClCompile Include="Phantom.cpp" />
     <ClCompile Include="PhantomDrone.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='DebugAcademicEdition|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -504,20 +504,23 @@ copy "$(IntDir)\$(TargetFileName)" "$(SolutionDir)\..\..\bin\$(PlatformName)\HD<
     <ClCompile Include="remoteApi\extApi.c" />
     <ClCompile Include="remoteApi\extApiCustom.c" />
     <ClCompile Include="remoteApi\extApiPlatform.c" />
+    <ClCompile Include="XInput.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArrayMath.hpp" />
     <ClInclude Include="Controller.hpp" />
+    <ClInclude Include="Copter.hpp" />
     <ClInclude Include="Drone.hpp" />
-    <ClInclude Include="Haptic.hpp" />
     <ClInclude Include="include\extApiCustomConst.h" />
     <ClInclude Include="include\v_repConst.h" />
     <ClInclude Include="include\v_repLib.h" />
     <ClInclude Include="include\v_repTypes.h" />
+    <ClInclude Include="Phantom.hpp" />
     <ClInclude Include="remoteApi\extApi.h" />
     <ClInclude Include="remoteApi\extApiCustom.h" />
     <ClInclude Include="remoteApi\extApiInternal.h" />
     <ClInclude Include="remoteApi\extApiPlatform.h" />
+    <ClInclude Include="XInput.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
