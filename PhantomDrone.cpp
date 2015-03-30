@@ -49,8 +49,8 @@ int main(int argc, char* argv[])
 		return -1;
 	}*/
 
-	//Phantom phantom;
-	XInput pad;
+	Phantom phantom;
+	//XInput pad;
 	Drone drone;
 	Controller<Drone> controller(drone);
 
@@ -68,10 +68,9 @@ int main(int argc, char* argv[])
 		//std::this_thread::sleep_for(dura);
 
 		//auto pos = test.Position();
-		/*auto haptic_status = phantom.Status();*/
-		auto haptic_status = pad.Status();
+		auto haptic_status = phantom.Status();
+		//auto haptic_status = pad.Status();
 		auto drone_status = drone.Status();
-		std::cout << haptic_status.position[0] << " " << haptic_status.position[1] << " " << haptic_status.position[2] << std::endl;
 		// auto displ = std::array<double, 3>{ haptic_status.position[0] * 0.01, haptic_status.position[1] * 0.01, haptic_status.position[2] * 0.01};
 		auto displ = std::array<double, 3>{ haptic_status.position[0], haptic_status.position[1], haptic_status.position[2]};
 		std::array<double, 3> dest;
@@ -125,6 +124,8 @@ int main(int argc, char* argv[])
 		//test.Pool();
 
 		controller.Go(dest, { 0.0, 0.0, ang });
+		drone_status = drone.Status();
+		phantom.Force(drone_status.reaction);
 	} while (!((1 << 16) & keystate));
 
 

@@ -33,7 +33,7 @@ Phantom::StatusStruct Phantom::Status()
 
 	return StatusStruct{
 		button,
-		std::array<double,3>{pos_diff[0], -pos_diff[2], pos_diff[1]},
+		std::array<double,3>{pos_diff[0]*0.001, -pos_diff[2] * 0.001, pos_diff[1] * 0.001},
 		std::array<double,3>{gim_diff[0], gim_diff[1], -gim_diff[2]} // in rads
 	};
 }
@@ -53,12 +53,13 @@ Phantom::StatusStruct Phantom::Status()
 
 void Phantom::Force(std::array<double, 3> f)
 {
-	f[0] = clamp(f[0], -max_force, max_force);
-	f[1] = clamp(f[1], -max_force, max_force);
-	f[2] = clamp(f[2], -max_force, max_force);
+	f[0] = clamp(f[0] * 5.0, -max_force, max_force);
+	f[1] = clamp(f[1] * 5.0, -max_force, max_force);
+	f[2] = clamp(f[2] * 5.0, -max_force, max_force);
 
+	std::cout << f[0] << " " << -f[2] << " " << f[1] << std::endl;
 	std::lock_guard<std::mutex> lock(device_mutex);
-	update_force = hduVector3Dd(f.data());
+	update_force = hduVector3Dd(f[0], -f[2], f[1]);
 }
 
 bool Phantom::testDevice()

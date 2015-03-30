@@ -25,6 +25,7 @@ class Drone : public Copter<Drone>
 	std::array<simxFloat, 3> velocity;
 	std::array<simxFloat, 3> rotation;
 	std::array<simxFloat, 4> propeller_velocity;
+	std::array<simxFloat, 3> reaction;
 
 	// std::thread updater;
 	// std::mutex mtx;

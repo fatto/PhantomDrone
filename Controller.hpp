@@ -28,7 +28,7 @@ class Controller
 	std::ofstream file;
 
 public:
-	Controller(T& d) : drone(d), t(timer::now()), file("plot.dat") { file << "rot0\trot1\trot2\trot3" << std::endl; };
+	Controller(T& d) : drone(d), t(timer::now()), file("plot.dat") { file << "status_angle\tangle\tmin_angle\teuler\tdiff" << std::endl; };
 
 	// we only check the z-axis angle
 	void Go(std::array<double, 3> position, std::array<double, 3> angle)
@@ -69,9 +69,8 @@ public:
 		// rotational
 		double min_angle = std::acos(std::cos(status.angle[2] - angle[2]));
 		double ct = std::cos(angle[2]), st = std::sin(angle[2]);
-		double euler = (c3*st - s3*ct) * min_angle;
-		//euler = fabs(status.angle[2] - angle) == euler ? euler : -euler; // should be useless????
-		double rotCorr = euler * 0.1 + 2 * (euler - prevEuler);
+		double euler = std::copysign(min_angle, (s3*ct - c3*st));
+		double rotCorr = euler * 0.1 + 2 * (euler - prevEuler); // positive rotation clockwise
 		prevEuler = euler;
 
 		std::array<double, 4> rotor;
@@ -80,7 +79,7 @@ public:
 		rotor[2] = thrust*(1 + alphaCorr - betaCorr + rotCorr);
 		rotor[3] = thrust*(1 + alphaCorr + betaCorr - rotCorr);
 
-		file << rotor[0] << "\t" << rotor[1] << "\t" << rotor[2] << "\t" << rotor[3] << std::endl;
+		//file << rotor[0] << "\t" << rotor[1] << "\t" << rotor[2] << "\t" << rotor[3] << std::endl;
 
 		drone.Apply(rotor);
 	}

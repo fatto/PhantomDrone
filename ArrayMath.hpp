@@ -24,11 +24,11 @@ inline array3d operator*(const double& r, const array3d& l)
 	return{ l[0] * r, l[1] * r, l[2] * r };
 }
 
-template <typename T>
-int sgn(T val)
-{
-	return (T(0) < val) - (val < T(0));
-}
+//template <typename T>
+//int sgn(T val)
+//{
+//	return (T(0) < val) - (val < T(0));
+//}
 
 template < typename T>
 T clamp(T val, T low, T high)

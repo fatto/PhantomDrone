@@ -7,7 +7,7 @@
 
 static int portNb = 19997;
 
-Drone::Drone() //: end(false)
+Drone::Drone() : reaction() //: end(false)
 {
 	clientID = simxStart((simxChar*)"127.0.0.1", portNb, 1, 1, 2000, 5);
 	if (clientID == -1)
@@ -52,7 +52,8 @@ Drone::StatusStruct Drone::status() const
 	return StatusStruct{
 		std::array<double,3>{position[0], position[1], position[2]},
 		std::array<double,3>{angle[0], angle[1], angle[2]},
-		std::array<double,3>{velocity[0], velocity[1], velocity[2]}
+		std::array<double,3>{velocity[0], velocity[1], velocity[2]},
+		std::array<double,3>{reaction[0], reaction[1], reaction[2]}
 	};
 }
 
@@ -78,4 +79,7 @@ void Drone::updateStatus()
 	assert(simxGetObjectPosition(clientID, quadcopter, -1 /*absolute position*/, position.data(), simx_opmode_oneshot_wait) == simx_return_ok);
 	assert(simxGetObjectOrientation(clientID, quadcopter, -1 /*absolute angle*/, angle.data(), simx_opmode_oneshot_wait) == simx_return_ok);
 	assert(simxGetObjectVelocity(clientID, quadcopter, velocity.data(), rotation.data(), simx_opmode_oneshot_wait) == simx_return_ok);
+	assert(simxGetFloatSignal(clientID, "reactionx", &reaction[0], simx_opmode_oneshot_wait) == simx_return_ok);
+	assert(simxGetFloatSignal(clientID, "reactiony", &reaction[1], simx_opmode_oneshot_wait) == simx_return_ok);
+	assert(simxGetFloatSignal(clientID, "reactionz", &reaction[2], simx_opmode_oneshot_wait) == simx_return_ok);
 }

@@ -15,6 +15,7 @@ public:
 		std::array<double, 3> position;
 		std::array<double, 3> angle;
 		std::array<double, 3> velocity;
+		std::array<double, 3> reaction;
 	};
 	StatusStruct Status() const
 	{
