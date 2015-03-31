@@ -49,16 +49,16 @@ int main(int argc, char* argv[])
 		return -1;
 	}*/
 
-	Phantom phantom;
-	//XInput pad;
+	// Phantom phantom;
+	XInput pad;
 	Drone drone;
 	Controller<Drone> controller(drone);
 
 	short keystate;
 	auto destination = std::array<double, 3>{ 0.0, 0.0, 0.8};
-	auto last_displ = std::array<double, 3>{0.0, 0.0, 0.0};
-	auto angle = 0.0;
-	auto last_angle = 0.0;
+	//auto last_displ = std::array<double, 3>{0.0, 0.0, 0.0};
+	auto angle = std::array<double, 3>{0.0, 0.0, 0.0};
+	//auto last_angle = 0.0;
 	bool update_destination = false, update_angle = false;
 	do
 	{
@@ -68,46 +68,49 @@ int main(int argc, char* argv[])
 		//std::this_thread::sleep_for(dura);
 
 		//auto pos = test.Position();
-		auto haptic_status = phantom.Status();
-		//auto haptic_status = pad.Status();
+		// auto haptic_status = phantom.Status();
+		auto haptic_status = pad.Status();
 		auto drone_status = drone.Status();
 		// auto displ = std::array<double, 3>{ haptic_status.position[0] * 0.01, haptic_status.position[1] * 0.01, haptic_status.position[2] * 0.01};
-		auto displ = std::array<double, 3>{ haptic_status.position[0], haptic_status.position[1], haptic_status.position[2]};
+		// auto displ = std::array<double, 3>{ haptic_status.position[0], haptic_status.position[1], haptic_status.position[2]};
 		std::array<double, 3> dest;
-		double ang;
-		if (haptic_status.button[0])
-		{
-			dest = destination + displ;
-			last_displ = displ;
-			update_destination = true;
-		}
-		else if (update_destination)
-		{
-			destination = destination + last_displ;
-			dest = destination;
-			update_destination = false;
-		}
-		else
-		{
-			dest = destination;
-		}
+		std::array<double, 3> ang;
 
-		if (haptic_status.button[1])
-		{
-			ang = angle + haptic_status.gimbal[2];
-			last_angle = haptic_status.gimbal[2];
-			update_angle = true;
-		}
-		else if (update_angle)
-		{
-			angle = angle + last_angle;
-			ang = angle;
-			update_angle = false;
-		}
-		else
-		{
-			ang = angle;
-		}
+		dest = destination + haptic_status.position;
+		ang = angle + haptic_status.gimbal;
+		// if (haptic_status.button[0])
+		// {
+		// 	dest = destination + displ;
+		// 	last_displ = displ;
+		// 	update_destination = true;
+		// }
+		// else if (update_destination)
+		// {
+		// 	destination = destination + last_displ;
+		// 	dest = destination;
+		// 	update_destination = false;
+		// }
+		// else
+		// {
+		// 	dest = destination;
+		// }
+
+		// if (haptic_status.button[1])
+		// {
+		// 	ang = angle + haptic_status.gimbal[2];
+		// 	last_angle = haptic_status.gimbal[2];
+		// 	update_angle = true;
+		// }
+		// else if (update_angle)
+		// {
+		// 	angle = angle + last_angle;
+		// 	ang = angle;
+		// 	update_angle = false;
+		// }
+		// else
+		// {
+		// 	ang = angle;
+		// }
 		//displ[0] *= 0.05;
 		//displ[1] *= 0.05;
 		//displ[2] *= 0.05;
@@ -123,9 +126,10 @@ int main(int argc, char* argv[])
 		//controller.Go(destination + std::array<float, 3>{ float(displ[0] * 0.01), float(displ[1] * 0.01), float(displ[2] * 0.01)}, float(haptic_status.gimbal[2]));
 		//test.Pool();
 
-		controller.Go(dest, { 0.0, 0.0, ang });
+		//std::cout << "x " << dest[0] << " y " << dest[1] << " z " << dest[2] << std::endl;
+		controller.Go(dest, ang );
 		drone_status = drone.Status();
-		phantom.Force(drone_status.reaction);
+		//phantom.Force(drone_status.reaction);
 	} while (!((1 << 16) & keystate));
 
 

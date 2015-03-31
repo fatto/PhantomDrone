@@ -26,8 +26,8 @@ class XInput : public HID
 	};
 	CONTROLLER_STATE g_Controllers;
 
-	std::array<double, 3> start_position;
-	std::array<double, 3> start_gimbal;
+	std::array<double, 3> position;
+	std::array<double, 3> gimbal;
 
 	//std::function<HDCallbackCode HDCALLBACK(void*)> callback;
 	mutable std::mutex device_mutex;
