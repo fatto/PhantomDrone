@@ -22,9 +22,9 @@ Drone::Drone() : reaction() //: end(false)
 	assert(simxGetObjectPosition(clientID, quadcopter, -1 /*absolute position*/, position.data(), simx_opmode_oneshot_wait) == simx_return_ok);
 	assert(simxGetObjectOrientation(clientID, quadcopter, -1 /*absolute angle*/, angle.data(), simx_opmode_oneshot_wait) == simx_return_ok);
 	assert(simxGetObjectVelocity(clientID, quadcopter, velocity.data(), rotation.data(), simx_opmode_oneshot_wait) == simx_return_ok);
-	simxInt dummy_handle;
-	std::array<uint8_t, 12> color{255, 255, 255, 0, 0, 0, 255, 255, 255, 255, 255, 255};
-	assert(simxCreateDummy(clientID, 1.0f, color.data(), &dummy_handle, simx_opmode_oneshot_wait) == simx_return_ok);
+	//simxInt dummy_handle;
+	//std::array<uint8_t, 12> color{255, 255, 255, 0, 0, 0, 255, 255, 255, 255, 255, 255};
+	//assert(simxCreateDummy(clientID, 1.0f, color.data(), &dummy_handle, simx_opmode_oneshot_wait) == simx_return_ok);
 
 	//updater = std::thread(&Drone::updateStatus, this);
 	assert(simxStartSimulation(clientID, simx_opmode_oneshot_wait) == simx_return_ok);

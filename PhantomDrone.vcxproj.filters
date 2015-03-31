@@ -15,6 +15,7 @@
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Phantom.cpp" />
     <ClCompile Include="XInput.cpp" />
+    <ClCompile Include="ArrayMath.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\extApiCustomConst.h">
@@ -55,5 +56,9 @@
     <Filter Include="remoteApi">
       <UniqueIdentifier>{9c0955f8-2f5c-4e54-8861-5a20d4539500}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="vec4.inl" />
+    <None Include="vec4_avx.inl" />
   </ItemGroup>
 </Project>
