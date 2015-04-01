@@ -57,8 +57,4 @@
       <UniqueIdentifier>{9c0955f8-2f5c-4e54-8861-5a20d4539500}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="vec4.inl" />
-    <None Include="vec4_avx.inl" />
-  </ItemGroup>
 </Project>

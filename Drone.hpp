@@ -11,9 +11,8 @@ extern "C" {
 #include <atomic>
 #include <array>
 
-class Drone : public Copter<Drone>
+class Drone
 {
-	friend Copter<Drone>;
 	simxInt clientID;
 	simxInt quadcopter;
 	//simxFloat quadposition[3];
@@ -32,17 +31,18 @@ class Drone : public Copter<Drone>
 	// std::atomic_bool end;
 
 public:
-	// struct StatusStruct
-	// {
-	// 	std::array<simxFloat, 3> position;
-	// 	std::array<simxFloat, 3> angle;
-	// 	std::array<simxFloat, 3> velocity;
-	// };
+	struct StatusStruct
+	{
+		std::array<double, 3> position;
+		std::array<double, 3> angle;
+		std::array<double, 3> velocity;
+		std::array<double, 3> reaction;
+	};
 	Drone();
 	~Drone();
-private:
-	StatusStruct status() const;
-	void apply(std::array<double, 4> rotor);
+
+	StatusStruct Status() const;
+	void Apply(std::array<double, 4> rotor);
 private:
 	void updateStatus();
 };

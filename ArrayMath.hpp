@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cstddef>
-#include <immintrin.h> // https://software.intel.com/sites/products/documentation/doclib/iss/2013/compiler/cpp-lin/GUID-290F279F-1BC4-4A46-858A-10D41F58B81F.htm
+#include <immintrin.h> // https://software.intel.com/sites/products/documentation/doclib/iss/2013/compiler/cpp-lin/index.htm#GUID-712779D8-D085-4464-9662-B630681F16F1.htm github nova-simd
 
 template <typename T>
 struct simd
@@ -31,64 +31,66 @@ struct vec4d
 		struct { double x, y, z, w; };
 		struct { double r, g, b, a; };
 		struct { double s, t, p, q; };
-		typename simd<double>::type data;
+		simd<double>::type data;
 	};
 
-	typedef size_t size_type;
-	size_type size() const { return 4; }
-	double& operator[](size_type i);
-	double const& operator[](size_type i) const;
+	// typedef size_t size_type;
+	// size_type size() const { return 4; }
+	// double& operator[](size_type i);
+	// double const& operator[](size_type i) const;
 
 	vec4d();
-	explicit vec4d(double s);
-	explicit vec4d(double a, double b, double c,double d);
+	vec4d(simd<double>::type v);
+	explicit vec4d(double _s);
+	explicit vec4d(double _a, double _b, double _c,double _d);
 	~vec4d() {}
 
 	vec4d& operator=(vec4d const& v);
 
-	vec4d& operator+=(double s);
+	vec4d& operator+=(double _s);
 	vec4d& operator+=(vec4d const& v);
 	
-	vec4d& operator-=(double s);
+	vec4d& operator-=(double _s);
 	vec4d& operator-=(vec4d const& v);
 
-	vec4d& operator*=(double s);
+	vec4d& operator*=(double _s);
 	vec4d& operator*=(vec4d const& v);
 
-	vec4d& operator/=(double s);
+	vec4d& operator/=(double _s);
 	vec4d& operator/=(vec4d const& v);
-
-	vec4d& operator++();
-	vec4d& operator--();
-	vec4d operator++(int);
-	vec4d operator--(int);
 };
 
-vec4d operator+(vec4d const& v, T s);
-vec4d operator+(T s, vec4d const& v);
+vec4d operator+(vec4d const& v, double _s);
+vec4d operator+(double _s, vec4d const& v);
 vec4d operator+(vec4d const& v1, vec4d const& v2);
 
-vec4d operator-(vec4d const& v, T s);
-vec4d operator-(T s, vec4d const& v);
+vec4d operator-(vec4d const& v, double _s);
+vec4d operator-(double _s, vec4d const& v);
 vec4d operator-(vec4d const& v1, vec4d const& v2);
 
-vec4d operator*(vec4d const& v, T s);
-vec4d operator*(T s, vec4d const& v);
+vec4d operator*(vec4d const& v, double _s);
+vec4d operator*(double _s, vec4d const& v);
 vec4d operator*(vec4d const& v1, vec4d const& v2);
 
-vec4d operator/(vec4d const& v, T s);
-vec4d operator/(T s, vec4d const& v);
+vec4d operator/(vec4d const& v, double _s);
+vec4d operator/(double _s, vec4d const& v);
 vec4d operator/(vec4d const& v1, vec4d const& v2);
 
-vec4d operator-(vec4d const& v);
+// vec4d operator-(vec4d const& v);
 
-bool operator==(vec4d const& v1, vec4d const& v2);
+vec4d operator<(vec4d const& v1, vec4d const& v2);
+vec4d operator<=(vec4d const& v1, vec4d const& v2);
+vec4d operator>(vec4d const& v1, vec4d const& v2);
+vec4d operator>=(vec4d const& v1, vec4d const& v2);
+vec4d operator==(vec4d const& v1, vec4d const& v2);
+vec4d operator!=(vec4d const& v1, vec4d const& v2);
 
-bool operator!=(vec4d const& v1, vec4d const& v2);
 
-
-
-
+vec4d abs(vec4d const& v);
+vec4d square(vec4d const& v);
+vec4d sqrt(vec4d const& v);
+vec4d max_(vec4d const& v1, vec4d const& v2);
+vec4d min_(vec4d const& v1, vec4d const& v2);
 
 
 

@@ -524,10 +524,6 @@ copy "$(IntDir)\$(TargetFileName)" "$(SolutionDir)\..\..\bin\$(PlatformName)\HD<
     <ClInclude Include="remoteApi\extApiPlatform.h" />
     <ClInclude Include="XInput.hpp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="vec4.inl" />
-    <None Include="vec4_avx.inl" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
