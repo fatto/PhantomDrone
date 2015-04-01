@@ -52,7 +52,7 @@ int main(int argc, char* argv[])
 	// Phantom phantom;
 	XInput pad;
 	Drone drone;
-	Controller<Drone> controller(drone);
+	Controller controller(drone);
 
 	short keystate;
 	auto destination = std::array<double, 3>{ 0.0, 0.0, 0.8};

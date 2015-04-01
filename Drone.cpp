@@ -51,7 +51,7 @@ Drone::~Drone()
 	simxFinish(clientID);
 }
 
-Drone::StatusStruct Drone::status() const
+Drone::StatusStruct Drone::Status() const
 {
 	return StatusStruct{
 		std::array<double,3>{position[0], position[1], position[2]},
@@ -61,7 +61,7 @@ Drone::StatusStruct Drone::status() const
 	};
 }
 
-void Drone::apply(std::array<double, 4> rotor)
+void Drone::Apply(std::array<double, 4> rotor)
 {
 	//std::lock_guard<std::mutex> lock(mtx);
 	//std::cout << rotor[0] << " " << rotor[1] << " " << rotor[2] << " " << rotor[3] << std::endl;
