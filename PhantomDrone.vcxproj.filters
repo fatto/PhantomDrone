@@ -48,6 +48,8 @@
     <ClInclude Include="Copter.hpp" />
     <ClInclude Include="Phantom.hpp" />
     <ClInclude Include="XInput.hpp" />
+    <ClInclude Include="AlignedAllocator.hpp" />
+    <ClInclude Include="Sat.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">

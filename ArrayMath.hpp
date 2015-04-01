@@ -1,28 +1,32 @@
 #pragma once
 
+#include "AlignedAllocator.hpp"
 #include <cstddef>
 #include <immintrin.h> // https://software.intel.com/sites/products/documentation/doclib/iss/2013/compiler/cpp-lin/index.htm#GUID-712779D8-D085-4464-9662-B630681F16F1.htm github nova-simd
 
-template <typename T>
-struct simd
-{
-	typedef T type[4];
-};
+// template <typename T>
+// struct simd
+// {
+// 	typedef T type[4];
+// };
 
-template <>
-struct simd<float>
-{
-	typedef __m128 type;
-};
+// template <>
+// struct simd<float>
+// {
+// 	typedef __m128 type;
+// };
 
-template <>
-struct simd<double>
-{
-	typedef __m256d type;
-};
+// template <>
+// struct simd<double>
+// {
+// 	typedef __m256d type;
+// };
+
+typedef aligned_allocator<double, 32> simd_allocator;
 
 struct vec4d
 {
+	typedef __m256d simd_type;
 	typedef vec4d type;
 	typedef double value_type;
 
@@ -31,7 +35,7 @@ struct vec4d
 		struct { double x, y, z, w; };
 		struct { double r, g, b, a; };
 		struct { double s, t, p, q; };
-		simd<double>::type data;
+		simd_type data;
 	};
 
 	// typedef size_t size_type;
@@ -40,7 +44,7 @@ struct vec4d
 	// double const& operator[](size_type i) const;
 
 	vec4d();
-	vec4d(simd<double>::type v);
+	vec4d(simd_type v);
 	explicit vec4d(double _s);
 	explicit vec4d(double _a, double _b, double _c,double _d);
 	~vec4d() {}
@@ -58,6 +62,8 @@ struct vec4d
 
 	vec4d& operator/=(double _s);
 	vec4d& operator/=(vec4d const& v);
+
+	vec4d& normalize();
 };
 
 vec4d operator+(vec4d const& v, double _s);
@@ -76,7 +82,7 @@ vec4d operator/(vec4d const& v, double _s);
 vec4d operator/(double _s, vec4d const& v);
 vec4d operator/(vec4d const& v1, vec4d const& v2);
 
-// vec4d operator-(vec4d const& v);
+vec4d operator-(vec4d const& v);
 
 vec4d operator<(vec4d const& v1, vec4d const& v2);
 vec4d operator<=(vec4d const& v1, vec4d const& v2);
@@ -89,8 +95,13 @@ vec4d operator!=(vec4d const& v1, vec4d const& v2);
 vec4d abs(vec4d const& v);
 vec4d square(vec4d const& v);
 vec4d sqrt(vec4d const& v);
+vec4d normalize(vec4d const& v);
+vec4d length(vec4d const& v);
+vec4d lengthsquare(vec4d const& v);
+vec4d dot(vec4d const& v1, vec4d const& v2);
 vec4d max_(vec4d const& v1, vec4d const& v2);
 vec4d min_(vec4d const& v1, vec4d const& v2);
+
 
 
 
