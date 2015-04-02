@@ -285,7 +285,7 @@
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -345,7 +345,7 @@
     </Bscmake>
     <PostBuildEvent>
       <Command>echo on
-mkdir $(SolutionDir)\..\..\bin\$(PlatformName)\HD
+mkdir "$(SolutionDir)\..\..\bin\$(PlatformName)\HD"
 copy "$(IntDir)\$(TargetFileName)" "$(SolutionDir)\..\..\bin\$(PlatformName)\HD</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -388,7 +388,7 @@ copy "$(IntDir)\$(TargetFileName)" "$(SolutionDir)\..\..\bin\$(PlatformName)\HD<
     </Bscmake>
     <PostBuildEvent>
       <Command>echo on
-mkdir $(SolutionDir)\..\..\bin\$(PlatformName)\HD
+mkdir "$(SolutionDir)\..\..\bin\$(PlatformName)\HD"
 copy "$(IntDir)\$(TargetFileName)" "$(SolutionDir)\..\..\bin\$(PlatformName)\HD</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -432,7 +432,7 @@ copy "$(IntDir)\$(TargetFileName)" "$(SolutionDir)\..\..\bin\$(PlatformName)\HD<
     </Bscmake>
     <PostBuildEvent>
       <Command>echo on
-mkdir $(SolutionDir)\..\..\bin\$(PlatformName)\HD
+mkdir "$(SolutionDir)\..\..\bin\$(PlatformName)\HD"
 copy "$(IntDir)\$(TargetFileName)" "$(SolutionDir)\..\..\bin\$(PlatformName)\HD</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -446,8 +446,8 @@ copy "$(IntDir)\$(TargetFileName)" "$(SolutionDir)\..\..\bin\$(PlatformName)\HD<
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>$(OH_SDK_BASE)\include;$(OH_SDK_BASE)\utilities\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>NDEBUG;WIN32;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>include; remoteApi;$(OH_SDK_BASE)\include;$(OH_SDK_BASE)\utilities\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_USE_MATH_DEFINES;_ALLOW_MSC_VER_MISMATCH;NON_MATLAB_PARSING;MAX_EXT_API_CONNECTIONS=255;NDEBUG;WIN32;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -476,7 +476,7 @@ copy "$(IntDir)\$(TargetFileName)" "$(SolutionDir)\..\..\bin\$(PlatformName)\HD<
     </Bscmake>
     <PostBuildEvent>
       <Command>echo on
-mkdir $(SolutionDir)\..\..\bin\$(PlatformName)\HD
+mkdir "$(SolutionDir)\..\..\bin\$(PlatformName)\HD"
 copy "$(IntDir)\$(TargetFileName)" "$(SolutionDir)\..\..\bin\$(PlatformName)\HD</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

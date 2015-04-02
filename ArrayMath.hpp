@@ -91,6 +91,16 @@ vec4d operator>=(vec4d const& v1, vec4d const& v2);
 vec4d operator==(vec4d const& v1, vec4d const& v2);
 vec4d operator!=(vec4d const& v1, vec4d const& v2);
 
+vec4d operator&(vec4d const& v1, vec4d const& v2);
+vec4d operator|(vec4d const& v1, vec4d const& v2);
+vec4d operator^(vec4d const& v1, vec4d const& v2);
+
+vec4d lt(vec4d const& v1, vec4d const& v2);
+vec4d le(vec4d const& v1, vec4d const& v2);
+vec4d gt(vec4d const& v1, vec4d const& v2);
+vec4d ge(vec4d const& v1, vec4d const& v2);
+vec4d eq(vec4d const& v1, vec4d const& v2);
+vec4d neq(vec4d const& v1, vec4d const& v2);
 
 vec4d abs(vec4d const& v);
 vec4d square(vec4d const& v);
@@ -101,6 +111,7 @@ vec4d lengthsquare(vec4d const& v);
 vec4d dot(vec4d const& v1, vec4d const& v2);
 vec4d max_(vec4d const& v1, vec4d const& v2);
 vec4d min_(vec4d const& v1, vec4d const& v2);
+bool nonzero(vec4d const& v);
 
 
 

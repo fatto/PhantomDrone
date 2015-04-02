@@ -14,6 +14,16 @@ namespace sat
 		// 	return Polygon(njsagiefnsgraejn);
 		// }
 	};
+	struct Circle
+	{
+		vec4d position;
+		vec4d radius;
+		// Polygon getAABB()
+		// {
+		// 	vec4d corner = position - radius;
+		// 	return Box(corner, radius).toPolygon();
+		// }
+	};
 	struct Sphere
 	{
 		vec4d position;
@@ -48,10 +58,12 @@ namespace sat
 	template <typename T, typename U>
 	struct Response
 	{
-		T& a;
-		U& b;
 		vec4d direction;
 		vec4d magnitude;
+		T const& a;
+		U const& b;
+		bool collide;
+		Response(T const& _a, U const& _b) : a(_a), b(_b) { }
 	};
 
 	std::array<vec4d,2> project2D(std::vector<vec4d, simd_allocator> const& points, vec4d normal)
@@ -72,10 +84,14 @@ namespace sat
 		std::vector<vec4d, simd_allocator> v;
 	}
 
-	Response<vec4d,Sphere> testIn(vec4d const& point, Sphere const& sphere)
+	Response<vec4d, Sphere> testIn(vec4d const& point, Sphere const& sphere)
 	{
 		vec4d sq_distance = lengthsquare(point-sphere.position);
 		vec4d sq_radius = square(sphere.radius);
-		return sq_distance <= sq_radius;
+		Response<vec4d, Sphere> res(point);
+		res.collide = nonzero(sq_distance <= sq_radius);
+		return res;
 	}
+
+	Response<Sphere, Sphere>
 }

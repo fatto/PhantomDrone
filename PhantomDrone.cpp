@@ -42,6 +42,19 @@
 ******************************************************************************/
 int main(int argc, char* argv[])
 {
+	vec4d one(1.0, 1.0, 1.0, 1.0), two;
+	one += two;
+	one += 1.0;
+	vec4d three = one*1.0 + (one*two) + (one / two);
+	//two = one * 3.0;
+	two = one;
+	auto compa = nonzero(eq(one,two));
+	if (compa)
+		std::cout << "one > two" << std::endl;
+	else
+		std::cout << "one <= two" << std::endl;
+	two = one;
+	return 0;
 	/*int clientID = simxStart((simxChar*)"127.0.0.1", portNb, 1, 1, 2000, 5);
 	if(clientID == -1)
 	{

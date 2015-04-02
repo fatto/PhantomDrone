@@ -165,6 +165,45 @@ vec4d operator!=(vec4d const& v1, vec4d const& v2)
 	return _mm256_and_pd(_mm256_cmp_pd(v1.data, v2.data, _CMP_NEQ_UQ),_mm256_set1_pd(1.0));
 }
 
+vec4d operator&(vec4d const& v1, vec4d const& v2)
+{
+	return _mm256_and_pd(v1.data, v2.data);
+}
+vec4d operator|(vec4d const& v1, vec4d const& v2)
+{
+	return _mm256_or_pd(v1.data, v2.data);
+}
+vec4d operator^(vec4d const& v1, vec4d const& v2)
+{
+	return _mm256_xor_pd(v1.data, v2.data);
+}
+
+vec4d lt(vec4d const& v1, vec4d const& v2)
+{
+	return _mm256_cmp_pd(v1.data, v2.data, _CMP_LT_OS);
+}
+vec4d le(vec4d const& v1, vec4d const& v2)
+{
+	return _mm256_cmp_pd(v1.data, v2.data, _CMP_LE_OS);
+}
+vec4d gt(vec4d const& v1, vec4d const& v2)
+{
+	return _mm256_cmp_pd(v1.data, v2.data, _CMP_NLE_US);
+}
+vec4d ge(vec4d const& v1, vec4d const& v2)
+{
+	return _mm256_cmp_pd(v1.data, v2.data, _CMP_NLT_US);
+}
+vec4d eq(vec4d const& v1, vec4d const& v2)
+{
+	return _mm256_cmp_pd(v1.data, v2.data, _CMP_EQ_OQ);
+}
+vec4d neq(vec4d const& v1, vec4d const& v2)
+{
+	return _mm256_cmp_pd(v1.data, v2.data, _CMP_NEQ_UQ);
+}
+
+
 vec4d abs(vec4d const& v)
 {
 	union
@@ -231,4 +270,8 @@ vec4d max_(vec4d const& v1, vec4d const& v2)
 vec4d min_(vec4d const& v1, vec4d const& v2)
 {
 	return _mm256_min_pd(v1.data, v2.data);
+}
+bool nonzero(vec4d const& v)
+{
+	return _mm256_movemask_pd(v.data) != 0;
 }
