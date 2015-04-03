@@ -4,117 +4,158 @@
 #include <cstddef>
 #include <immintrin.h> // https://software.intel.com/sites/products/documentation/doclib/iss/2013/compiler/cpp-lin/index.htm#GUID-712779D8-D085-4464-9662-B630681F16F1.htm github nova-simd
 
-// template <typename T>
-// struct simd
-// {
-// 	typedef T type[4];
-// };
+template <typename T>
+struct simd;
 
-// template <>
-// struct simd<float>
-// {
-// 	typedef __m128 type;
-// };
-
-// template <>
-// struct simd<double>
-// {
-// 	typedef __m256d type;
-// };
-
-typedef aligned_allocator<double, 32> simd_allocator;
-
-struct vec4d
+template <>
+struct simd<float>
 {
-	typedef __m256d simd_type;
-	typedef vec4d type;
-	typedef double value_type;
+	typedef __m128 type;
+	static constexpr size_t size = sizeof(float)*4;
+};
 
-	union
-	{
-		struct { double x, y, z, w; };
-		struct { double r, g, b, a; };
-		struct { double s, t, p, q; };
+template <>
+struct simd<double>
+{
+	typedef __m256d type;
+	static constexpr size_t size = sizeof(float)*4;
+};
+
+
+template <typename T>
+struct vec4_simd
+{
+	typedef typename simd<T>::type simd_type;
+	typedef typename vec4_simd<T> type;
+	typedef T value_type;
+	typedef aligned_allocator<T, sizeof(T)*4> simd_allocator;
+
+	// union
+	// {
+	// 	struct { T x, y, z, w; };
+	// 	struct { T r, g, b, a; };
+	// 	struct { T s, t, p, q; };
 		simd_type data;
-	};
+	// };
 
 	// typedef size_t size_type;
 	// size_type size() const { return 4; }
 	// double& operator[](size_type i);
 	// double const& operator[](size_type i) const;
 
-	vec4d();
-	vec4d(simd_type v);
-	explicit vec4d(double _s);
-	explicit vec4d(double _a, double _b, double _c,double _d);
-	~vec4d() {}
+	vec4_simd<T>();
+	vec4_simd<T>(typename simd<T>::type v);
+	explicit vec4_simd<T>(T _s);
+	explicit vec4_simd<T>(T _a, T _b, T _c,T _d);
+	~vec4_simd<T>() {}
 
-	vec4d& operator=(vec4d const& v);
+	vec4_simd<T>& operator=(vec4_simd<T> const& v);
 
-	vec4d& operator+=(double _s);
-	vec4d& operator+=(vec4d const& v);
+	vec4_simd<T>& operator+=(T _s);
+	vec4_simd<T>& operator+=(vec4_simd<T> const& v);
 	
-	vec4d& operator-=(double _s);
-	vec4d& operator-=(vec4d const& v);
+	vec4_simd<T>& operator-=(T _s);
+	vec4_simd<T>& operator-=(vec4_simd<T> const& v);
 
-	vec4d& operator*=(double _s);
-	vec4d& operator*=(vec4d const& v);
+	vec4_simd<T>& operator*=(T _s);
+	vec4_simd<T>& operator*=(vec4_simd<T> const& v);
 
-	vec4d& operator/=(double _s);
-	vec4d& operator/=(vec4d const& v);
+	vec4_simd<T>& operator/=(T _s);
+	vec4_simd<T>& operator/=(vec4_simd<T> const& v);
 
-	vec4d& normalize();
+	vec4_simd<T>& normalize();
 };
 
-vec4d operator+(vec4d const& v, double _s);
-vec4d operator+(double _s, vec4d const& v);
-vec4d operator+(vec4d const& v1, vec4d const& v2);
+template <typename T>
+vec4_simd<T> operator+(vec4_simd<T> const& v, T _s);
+template <typename T>
+vec4_simd<T> operator+(T _s, vec4_simd<T> const& v);
+template <typename T>
+vec4_simd<T> operator+(vec4_simd<T> const& v1, vec4_simd<T> const& v2);
 
-vec4d operator-(vec4d const& v, double _s);
-vec4d operator-(double _s, vec4d const& v);
-vec4d operator-(vec4d const& v1, vec4d const& v2);
+template <typename T>
+vec4_simd<T> operator-(vec4_simd<T> const& v, T _s);
+template <typename T>
+vec4_simd<T> operator-(T _s, vec4_simd<T> const& v);
+template <typename T>
+vec4_simd<T> operator-(vec4_simd<T> const& v1, vec4_simd<T> const& v2);
 
-vec4d operator*(vec4d const& v, double _s);
-vec4d operator*(double _s, vec4d const& v);
-vec4d operator*(vec4d const& v1, vec4d const& v2);
+template <typename T>
+vec4_simd<T> operator*(vec4_simd<T> const& v, T _s);
+template <typename T>
+vec4_simd<T> operator*(T _s, vec4_simd<T> const& v);
+template <typename T>
+vec4_simd<T> operator*(vec4_simd<T> const& v1, vec4_simd<T> const& v2);
 
-vec4d operator/(vec4d const& v, double _s);
-vec4d operator/(double _s, vec4d const& v);
-vec4d operator/(vec4d const& v1, vec4d const& v2);
+template <typename T>
+vec4_simd<T> operator/(vec4_simd<T> const& v, T _s);
+template <typename T>
+vec4_simd<T> operator/(T _s, vec4_simd<T> const& v);
+template <typename T>
+vec4_simd<T> operator/(vec4_simd<T> const& v1, vec4_simd<T> const& v2);
 
-vec4d operator-(vec4d const& v);
+template <typename T>
+vec4_simd<T> operator-(vec4_simd<T> const& v);
 
-vec4d operator<(vec4d const& v1, vec4d const& v2);
-vec4d operator<=(vec4d const& v1, vec4d const& v2);
-vec4d operator>(vec4d const& v1, vec4d const& v2);
-vec4d operator>=(vec4d const& v1, vec4d const& v2);
-vec4d operator==(vec4d const& v1, vec4d const& v2);
-vec4d operator!=(vec4d const& v1, vec4d const& v2);
+template <typename T>
+vec4_simd<T> operator<(vec4_simd<T> const& v1, vec4_simd<T> const& v2);
+template <typename T>
+vec4_simd<T> operator<=(vec4_simd<T> const& v1, vec4_simd<T> const& v2);
+template <typename T>
+vec4_simd<T> operator>(vec4_simd<T> const& v1, vec4_simd<T> const& v2);
+template <typename T>
+vec4_simd<T> operator>=(vec4_simd<T> const& v1, vec4_simd<T> const& v2);
+template <typename T>
+vec4_simd<T> operator==(vec4_simd<T> const& v1, vec4_simd<T> const& v2);
+template <typename T>
+vec4_simd<T> operator!=(vec4_simd<T> const& v1, vec4_simd<T> const& v2);
 
-vec4d operator&(vec4d const& v1, vec4d const& v2);
-vec4d operator|(vec4d const& v1, vec4d const& v2);
-vec4d operator^(vec4d const& v1, vec4d const& v2);
+template <typename T>
+vec4_simd<T> operator&(vec4_simd<T> const& v1, vec4_simd<T> const& v2);
+template <typename T>
+vec4_simd<T> operator|(vec4_simd<T> const& v1, vec4_simd<T> const& v2);
+template <typename T>
+vec4_simd<T> operator^(vec4_simd<T> const& v1, vec4_simd<T> const& v2);
 
-vec4d lt(vec4d const& v1, vec4d const& v2);
-vec4d le(vec4d const& v1, vec4d const& v2);
-vec4d gt(vec4d const& v1, vec4d const& v2);
-vec4d ge(vec4d const& v1, vec4d const& v2);
-vec4d eq(vec4d const& v1, vec4d const& v2);
-vec4d neq(vec4d const& v1, vec4d const& v2);
+template <typename T>
+vec4_simd<T> lt(vec4_simd<T> const& v1, vec4_simd<T> const& v2);
+template <typename T>
+vec4_simd<T> le(vec4_simd<T> const& v1, vec4_simd<T> const& v2);
+template <typename T>
+vec4_simd<T> gt(vec4_simd<T> const& v1, vec4_simd<T> const& v2);
+template <typename T>
+vec4_simd<T> ge(vec4_simd<T> const& v1, vec4_simd<T> const& v2);
+template <typename T>
+vec4_simd<T> eq(vec4_simd<T> const& v1, vec4_simd<T> const& v2);
+template <typename T>
+vec4_simd<T> neq(vec4_simd<T> const& v1, vec4_simd<T> const& v2);
 
-vec4d abs(vec4d const& v);
-vec4d square(vec4d const& v);
-vec4d sqrt(vec4d const& v);
-vec4d normalize(vec4d const& v);
-vec4d length(vec4d const& v);
-vec4d lengthsquare(vec4d const& v);
-vec4d dot(vec4d const& v1, vec4d const& v2);
-vec4d max_(vec4d const& v1, vec4d const& v2);
-vec4d min_(vec4d const& v1, vec4d const& v2);
-bool nonzero(vec4d const& v);
+template <typename T>
+vec4_simd<T> abs(vec4_simd<T> const& v);
+template <typename T>
+vec4_simd<T> square(vec4_simd<T> const& v);
+template <typename T>
+vec4_simd<T> sqrt(vec4_simd<T> const& v);
+template <typename T>
+vec4_simd<T> normalize(vec4_simd<T> const& v);
+template <typename T>
+vec4_simd<T> length(vec4_simd<T> const& v);
+template <typename T>
+vec4_simd<T> lengthsquare(vec4_simd<T> const& v);
+template <typename T>
+vec4_simd<T> dot(vec4_simd<T> const& v1, vec4_simd<T> const& v2);
+template <typename T>
+vec4_simd<T> max_(vec4_simd<T> const& v1, vec4_simd<T> const& v2);
+template <typename T>
+vec4_simd<T> min_(vec4_simd<T> const& v1, vec4_simd<T> const& v2);
+template <typename T>
+bool nonzero(vec4_simd<T> const& v);
 
-
-
+//#if defined(__AVX__)
+#include "ArrayMath.avx"
+//#else
+//#include "ArrayMath.sse"
+//#endif
 
 
 

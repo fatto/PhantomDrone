@@ -42,10 +42,10 @@
 ******************************************************************************/
 int main(int argc, char* argv[])
 {
-	vec4d one(1.0, 1.0, 1.0, 1.0), two;
+	vec4_simd<double> one(1.0, 1.0, 1.0, 1.0), two;
 	one += two;
 	one += 1.0;
-	vec4d three = one*1.0 + (one*two) + (one / two);
+	vec4_simd<double> three = one*1.0 + (one*two) + (one / two);
 	//two = one * 3.0;
 	two = one;
 	auto compa = nonzero(eq(one,two));
