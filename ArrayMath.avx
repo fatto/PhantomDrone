@@ -323,7 +323,12 @@ vec4_simd<T> min_(vec4_simd<T> const& v1, vec4_simd<T> const& v2)
 	return _mm256_min_pd(v1.data, v2.data);
 }
 template <typename T>
-bool nonzero(vec4_simd<T> const& v)
+bool any(vec4_simd<T> const& v)
 {
 	return _mm256_movemask_pd(v.data) != 0;
+}
+template <typename T>
+bool all(vec4_simd<T> const& v)
+{
+return _mm256_movemask_pd(v.data) == 0x000f;
 }

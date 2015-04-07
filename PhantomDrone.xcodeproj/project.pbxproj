@@ -1,0 +1,368 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		20520B7C1ACEC919009E3F36 /* Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 20520B621ACEC919009E3F36 /* Controller.cpp */; };
+		20520B7D1ACEC919009E3F36 /* Drone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 20520B651ACEC919009E3F36 /* Drone.cpp */; };
+		20520B7F1ACEC919009E3F36 /* extApi.c in Sources */ = {isa = PBXBuildFile; fileRef = 20520B701ACEC919009E3F36 /* extApi.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		20520B801ACEC919009E3F36 /* extApiCustom.c in Sources */ = {isa = PBXBuildFile; fileRef = 20520B721ACEC919009E3F36 /* extApiCustom.c */; };
+		20520B811ACEC919009E3F36 /* extApiPlatform.c in Sources */ = {isa = PBXBuildFile; fileRef = 20520B751ACEC919009E3F36 /* extApiPlatform.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		20520B841ACED65D009E3F36 /* PhantomDrone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 20520B831ACED65D009E3F36 /* PhantomDrone.cpp */; };
+		208F12BB1AD08FB6009EDD9A /* Pad.mm in Sources */ = {isa = PBXBuildFile; fileRef = 208F12BA1AD08FB6009EDD9A /* Pad.mm */; };
+		208F12BE1AD0A1B4009EDD9A /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 208F12BD1AD0A1B4009EDD9A /* IOKit.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		20520B3B1ACEC7C0009E3F36 /* PhantomDrone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhantomDrone.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		20520B3F1ACEC7C0009E3F36 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		20520B5E1ACEC919009E3F36 /* AlignedAllocator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AlignedAllocator.hpp; sourceTree = SOURCE_ROOT; };
+		20520B5F1ACEC919009E3F36 /* ArrayMath.avx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ArrayMath.avx; sourceTree = SOURCE_ROOT; };
+		20520B601ACEC919009E3F36 /* ArrayMath.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ArrayMath.hpp; sourceTree = SOURCE_ROOT; };
+		20520B611ACEC919009E3F36 /* ArrayMath.sse */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = ArrayMath.sse; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		20520B621ACEC919009E3F36 /* Controller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Controller.cpp; sourceTree = SOURCE_ROOT; };
+		20520B631ACEC919009E3F36 /* Controller.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Controller.hpp; sourceTree = SOURCE_ROOT; };
+		20520B641ACEC919009E3F36 /* Copter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Copter.hpp; sourceTree = SOURCE_ROOT; };
+		20520B651ACEC919009E3F36 /* Drone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Drone.cpp; sourceTree = SOURCE_ROOT; };
+		20520B661ACEC919009E3F36 /* Drone.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Drone.hpp; sourceTree = SOURCE_ROOT; };
+		20520B671ACEC919009E3F36 /* HID.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HID.hpp; sourceTree = SOURCE_ROOT; };
+		20520B691ACEC919009E3F36 /* extApiCustomConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = extApiCustomConst.h; sourceTree = "<group>"; };
+		20520B6A1ACEC919009E3F36 /* v_repConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = v_repConst.h; sourceTree = "<group>"; };
+		20520B6B1ACEC919009E3F36 /* v_repLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = v_repLib.h; sourceTree = "<group>"; };
+		20520B6C1ACEC919009E3F36 /* v_repTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = v_repTypes.h; sourceTree = "<group>"; };
+		20520B701ACEC919009E3F36 /* extApi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = extApi.c; sourceTree = "<group>"; };
+		20520B711ACEC919009E3F36 /* extApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = extApi.h; sourceTree = "<group>"; };
+		20520B721ACEC919009E3F36 /* extApiCustom.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = extApiCustom.c; sourceTree = "<group>"; };
+		20520B731ACEC919009E3F36 /* extApiCustom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = extApiCustom.h; sourceTree = "<group>"; };
+		20520B741ACEC919009E3F36 /* extApiInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = extApiInternal.h; sourceTree = "<group>"; };
+		20520B751ACEC919009E3F36 /* extApiPlatform.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = extApiPlatform.c; sourceTree = "<group>"; };
+		20520B761ACEC919009E3F36 /* extApiPlatform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = extApiPlatform.h; sourceTree = "<group>"; };
+		20520B771ACEC919009E3F36 /* Sat.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Sat.hpp; sourceTree = SOURCE_ROOT; };
+		20520B831ACED65D009E3F36 /* PhantomDrone.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PhantomDrone.cpp; sourceTree = SOURCE_ROOT; };
+		208F12BA1AD08FB6009EDD9A /* Pad.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Pad.mm; sourceTree = SOURCE_ROOT; };
+		208F12BC1AD08FDA009EDD9A /* Pad.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Pad.hpp; sourceTree = SOURCE_ROOT; };
+		208F12BD1AD0A1B4009EDD9A /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		20520B381ACEC7C0009E3F36 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				208F12BE1AD0A1B4009EDD9A /* IOKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		20520B321ACEC7C0009E3F36 = {
+			isa = PBXGroup;
+			children = (
+				20520B3D1ACEC7C0009E3F36 /* PhantomDrone */,
+				20520B3C1ACEC7C0009E3F36 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		20520B3C1ACEC7C0009E3F36 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				20520B3B1ACEC7C0009E3F36 /* PhantomDrone.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		20520B3D1ACEC7C0009E3F36 /* PhantomDrone */ = {
+			isa = PBXGroup;
+			children = (
+				20520B5E1ACEC919009E3F36 /* AlignedAllocator.hpp */,
+				20520B5F1ACEC919009E3F36 /* ArrayMath.avx */,
+				20520B601ACEC919009E3F36 /* ArrayMath.hpp */,
+				20520B611ACEC919009E3F36 /* ArrayMath.sse */,
+				20520B621ACEC919009E3F36 /* Controller.cpp */,
+				20520B631ACEC919009E3F36 /* Controller.hpp */,
+				20520B641ACEC919009E3F36 /* Copter.hpp */,
+				20520B651ACEC919009E3F36 /* Drone.cpp */,
+				20520B661ACEC919009E3F36 /* Drone.hpp */,
+				20520B671ACEC919009E3F36 /* HID.hpp */,
+				208F12BC1AD08FDA009EDD9A /* Pad.hpp */,
+				208F12BA1AD08FB6009EDD9A /* Pad.mm */,
+				20520B831ACED65D009E3F36 /* PhantomDrone.cpp */,
+				20520B771ACEC919009E3F36 /* Sat.hpp */,
+				20520B681ACEC919009E3F36 /* include */,
+				20520B6F1ACEC919009E3F36 /* remoteApi */,
+				20520B3E1ACEC7C0009E3F36 /* Supporting Files */,
+			);
+			path = PhantomDrone;
+			sourceTree = "<group>";
+			usesTabs = 1;
+		};
+		20520B3E1ACEC7C0009E3F36 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				208F12BD1AD0A1B4009EDD9A /* IOKit.framework */,
+				20520B3F1ACEC7C0009E3F36 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		20520B681ACEC919009E3F36 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				20520B691ACEC919009E3F36 /* extApiCustomConst.h */,
+				20520B6A1ACEC919009E3F36 /* v_repConst.h */,
+				20520B6B1ACEC919009E3F36 /* v_repLib.h */,
+				20520B6C1ACEC919009E3F36 /* v_repTypes.h */,
+			);
+			path = include;
+			sourceTree = SOURCE_ROOT;
+		};
+		20520B6F1ACEC919009E3F36 /* remoteApi */ = {
+			isa = PBXGroup;
+			children = (
+				20520B701ACEC919009E3F36 /* extApi.c */,
+				20520B711ACEC919009E3F36 /* extApi.h */,
+				20520B721ACEC919009E3F36 /* extApiCustom.c */,
+				20520B731ACEC919009E3F36 /* extApiCustom.h */,
+				20520B741ACEC919009E3F36 /* extApiInternal.h */,
+				20520B751ACEC919009E3F36 /* extApiPlatform.c */,
+				20520B761ACEC919009E3F36 /* extApiPlatform.h */,
+			);
+			path = remoteApi;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		20520B3A1ACEC7C0009E3F36 /* PhantomDrone */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 20520B581ACEC7C0009E3F36 /* Build configuration list for PBXNativeTarget "PhantomDrone" */;
+			buildPhases = (
+				20520B371ACEC7C0009E3F36 /* Sources */,
+				20520B381ACEC7C0009E3F36 /* Frameworks */,
+				20520B391ACEC7C0009E3F36 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PhantomDrone;
+			productName = PhantomDrone;
+			productReference = 20520B3B1ACEC7C0009E3F36 /* PhantomDrone.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		20520B331ACEC7C0009E3F36 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0620;
+				ORGANIZATIONNAME = "Marco Fattorel";
+				TargetAttributes = {
+					20520B3A1ACEC7C0009E3F36 = {
+						CreatedOnToolsVersion = 6.2;
+					};
+				};
+			};
+			buildConfigurationList = 20520B361ACEC7C0009E3F36 /* Build configuration list for PBXProject "PhantomDrone" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 20520B321ACEC7C0009E3F36;
+			productRefGroup = 20520B3C1ACEC7C0009E3F36 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				20520B3A1ACEC7C0009E3F36 /* PhantomDrone */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		20520B391ACEC7C0009E3F36 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		20520B371ACEC7C0009E3F36 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				20520B7F1ACEC919009E3F36 /* extApi.c in Sources */,
+				208F12BB1AD08FB6009EDD9A /* Pad.mm in Sources */,
+				20520B7D1ACEC919009E3F36 /* Drone.cpp in Sources */,
+				20520B841ACED65D009E3F36 /* PhantomDrone.cpp in Sources */,
+				20520B811ACEC919009E3F36 /* extApiPlatform.c in Sources */,
+				20520B801ACEC919009E3F36 /* extApiCustom.c in Sources */,
+				20520B7C1ACEC919009E3F36 /* Controller.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		20520B561ACEC7C0009E3F36 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		20520B571ACEC7C0009E3F36 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		20520B591ACEC7C0009E3F36 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_X86_VECTOR_INSTRUCTIONS = sse4.2;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_ENABLE_FLOATING_POINT_LIBRARY_CALLS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					_USE_MATH_DEFINES,
+					NON_MATLAB_PARSING,
+					"MAX_EXT_API_CONNECTIONS=255",
+					"DEBUG=1",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					include,
+				);
+				INFOPLIST_FILE = PhantomDrone/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		20520B5A1ACEC7C0009E3F36 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_X86_VECTOR_INSTRUCTIONS = sse4.2;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_ENABLE_FLOATING_POINT_LIBRARY_CALLS = YES;
+				GCC_FAST_MATH = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					_USE_MATH_DEFINES,
+					NON_MATLAB_PARSING,
+					"MAX_EXT_API_CONNECTIONS=255",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					include,
+				);
+				INFOPLIST_FILE = PhantomDrone/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		20520B361ACEC7C0009E3F36 /* Build configuration list for PBXProject "PhantomDrone" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				20520B561ACEC7C0009E3F36 /* Debug */,
+				20520B571ACEC7C0009E3F36 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		20520B581ACEC7C0009E3F36 /* Build configuration list for PBXNativeTarget "PhantomDrone" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				20520B591ACEC7C0009E3F36 /* Debug */,
+				20520B5A1ACEC7C0009E3F36 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 20520B331ACEC7C0009E3F36 /* Project object */;
+}

@@ -2,7 +2,31 @@
 
 #include "AlignedAllocator.hpp"
 #include <cstddef>
-#include <immintrin.h> // https://software.intel.com/sites/products/documentation/doclib/iss/2013/compiler/cpp-lin/index.htm#GUID-712779D8-D085-4464-9662-B630681F16F1.htm github nova-simd
+
+//#include <xmmintrin.h>
+#include <immintrin.h>
+
+//#ifdef __SSE2__
+//#include <emmintrin.h>
+//#endif
+//
+//#ifdef __SSE3__
+//#include <pmmintrin.h>
+//#endif
+//
+//#ifdef __SSE4_1__
+//#include <smmintrin.h>
+//#endif
+
+//#include <immintrin.h> // https://software.intel.com/sites/products/documentation/doclib/iss/2013/compiler/cpp-lin/index.htm#GUID-712779D8-D085-4464-9662-B630681F16F1.htm github nova-simd
+
+#if defined (__SSE4_2__)
+typedef __m128 vec4;
+const size_t vec4_alignment = 16;
+#elif defined (__AVX__)
+typedef __m256d vec4;
+const size_t vec4_alignment = 16;
+#endif
 
 template <typename T>
 struct simd;
@@ -14,29 +38,29 @@ struct simd<float>
 	static constexpr size_t size = sizeof(float)*4;
 };
 
-template <>
-struct simd<double>
-{
-	typedef __m256d type;
-	static constexpr size_t size = sizeof(float)*4;
-};
+//template <>
+//struct simd<double>
+//{
+//	typedef __m256d type;
+//	static constexpr size_t size = sizeof(float)*4;
+//};
 
 
 template <typename T>
 struct vec4_simd
 {
 	typedef typename simd<T>::type simd_type;
-	typedef typename vec4_simd<T> type;
+	typedef vec4_simd<T> type;
 	typedef T value_type;
-	typedef aligned_allocator<T, sizeof(T)*4> simd_allocator;
+	typedef aligned_allocator<T, simd<T>::size> allocator;
 
-	// union
-	// {
-	// 	struct { T x, y, z, w; };
-	// 	struct { T r, g, b, a; };
-	// 	struct { T s, t, p, q; };
+	 union
+	 {
+	 	struct { T x, y, z, w; };
+	 	struct { T r, g, b, a; };
+	 	struct { T s, t, p, q; };
 		simd_type data;
-	// };
+	 };
 
 	// typedef size_t size_type;
 	// size_type size() const { return 4; }
@@ -149,15 +173,15 @@ vec4_simd<T> max_(vec4_simd<T> const& v1, vec4_simd<T> const& v2);
 template <typename T>
 vec4_simd<T> min_(vec4_simd<T> const& v1, vec4_simd<T> const& v2);
 template <typename T>
-bool nonzero(vec4_simd<T> const& v);
+bool any(vec4_simd<T> const& v);
+template <typename T>
+bool all(vec4_simd<T> const& v);
 
-//#if defined(__AVX__)
+#if defined (__SSE4_2__)
+#include "ArrayMath.sse"
+#elif defined (__AVX__)
 #include "ArrayMath.avx"
-//#else
-//#include "ArrayMath.sse"
-//#endif
-
-
+#endif
 
 
 

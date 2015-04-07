@@ -2,12 +2,14 @@
 
 #include <vector>
 
+using vec4 = std::vec4_simd<float>;
+
 namespace sat
 {
 	struct Box
 	{
-		vec4d position;
-		vec4d size;
+		vec4 position;
+		vec4 size;
 		// Polygon toPolygon()
 		// {
 		// 	Polygon res{position, {vec4d(), }};
@@ -16,8 +18,8 @@ namespace sat
 	};
 	struct Circle
 	{
-		vec4d position;
-		vec4d radius;
+		vec4 position;
+		vec4 radius;
 		// Polygon getAABB()
 		// {
 		// 	vec4d corner = position - radius;
@@ -26,8 +28,8 @@ namespace sat
 	};
 	struct Sphere
 	{
-		vec4d position;
-		vec4d radius;
+		vec4 position;
+		vec4 radius;
 		// Polygon getAABB()
 		// {
 		// 	vec4d corner = position - radius;
@@ -37,8 +39,8 @@ namespace sat
 
 	struct Mesh
 	{
-		vec4d position;
-		std::vector<vec4d, simd_allocator> points;
+		vec4 position;
+		std::vector<vec4, vec4::allocator> points;
 		// Polygon getAABB()
 		// {
 		// 	std::vector<vec4d, simd_allocator>::size_type len = points.size();
@@ -58,20 +60,20 @@ namespace sat
 	template <typename T, typename U>
 	struct Response
 	{
-		vec4d direction;
-		vec4d magnitude;
+		vec4 direction;
+		vec4 magnitude;
 		T const& a;
 		U const& b;
 		bool collide;
 		Response(T const& _a, U const& _b) : a(_a), b(_b) { }
 	};
 
-	std::array<vec4d,2> project2D(std::vector<vec4d, simd_allocator> const& points, vec4d normal)
+	std::array<vec4,2> project2D(std::vector<vec4, vec4::allocator> const& points, vec4 normal)
 	{
-		vec4d dotproduct = dot(points[0], normal);
-		vec4d minval = dotproduct;
-		vec4d maxval = dotproduct;
-		for(std::vector<vec4d, simd_allocator>::size_type i = 1; i < points.size(); ++i)
+		vec4 dotproduct = dot(points[0], normal);
+		vec4 minval = dotproduct;
+		vec4 maxval = dotproduct;
+		for(std::vector<vec4, vec4::allocator>::size_type i = 1; i < points.size(); ++i)
 		{
 			dotproduct = dot(points[i], normal);
 			minval = min_(minval, dotproduct);
@@ -79,17 +81,17 @@ namespace sat
 		}
 		return {minval, maxval};
 	}
-	std::array<vec4d,2> project3D(std::vector<vec4d, simd_allocator> const& points, vec4d normal)
+	std::array<vec4,2> project3D(std::vector<vec4, vec4::allocator> const& points, vec4 normal)
 	{
-		std::vector<vec4d, simd_allocator> v;
+		std::vector<vec4, vec4::allocator> v;
 	}
 
-	Response<vec4d, Sphere> testIn(vec4d const& point, Sphere const& sphere)
+	Response<vec4, Sphere> testIn(vec4 const& point, Sphere const& sphere)
 	{
-		vec4d sq_distance = lengthsquare(point-sphere.position);
-		vec4d sq_radius = square(sphere.radius);
-		Response<vec4d, Sphere> res(point);
-		res.collide = nonzero(sq_distance <= sq_radius);
+		vec4 sq_distance = lengthsquare(point-sphere.position);
+		vec4 sq_radius = square(sphere.radius);
+		Response<vec4, Sphere> res(point, sphere);
+		res.collide = nonzero(le(sq_distance, sq_radius));
 		return res;
 	}
 
