@@ -22,11 +22,12 @@
 
 
 //#include "Phantom.hpp"
-//#include "XInput.hpp"
+#include "XInput.hpp"
 #include "Drone.hpp"
 #include "Controller.hpp"
 #include "ArrayMath.hpp"
-#include "Pad.hpp"
+#include "Sat.hpp"
+//#include "Pad.hpp"
 #include <cmath>
 
 //static HDdouble gSpringStiffness = 0.05;
@@ -42,6 +43,7 @@
 /******************************************************************************
  Main function.
 ******************************************************************************/
+
 int main(int argc, char* argv[])
 {
 //	vec4_simd<float> one(1.0f, 0.0f, 0.0f, 0.0f), two(0.0f, 1.0f, 0.0f, 0.0f);
@@ -51,11 +53,30 @@ int main(int argc, char* argv[])
 //	auto dd = dot(one, three);
 //	std::cout << std::endl;
 
-	vec4 banana = {1.f, 1.f, 1.f, 0.f};
-	vec4 limoni = banana * banana;
-	banana /= limoni;
-	
-	Pad pd;
+	sat::Point p{ {1.0, 0.5, 0.0, 0.0} };
+	sat::Circle c{ {1.0, 0.0, 0.0, 0.0}, {1.0, 1.0, 0.0, 0.0} };
+	sat::Circle c2{ { 2.5, 0.0, 0.0, 0.0 },{ 1.0, 1.0, 0.0, 0.0 } };
+
+	sat::Polygon p1{ {0.25, 0.25, 0.0, 0.0}, {{0.5, 0.0, 0.0, 0.0},{0.5, 0.5, 0.0, 0.0},{0.0, 0.5, 0.0, 0.0},{0.0,0.0,0.0,0.0}} };
+	sat::Polygon p2{ {-0.75/3.0 + 0.5, 2.0/3.0, 0.0, 0.0 },{ { 0.25 + 0.5, 1.0, 0.0, 0.0 },{ -0.5 + 0.5, 0.75, 0.0, 0.0 },{ -0.5 + 0.5, 0.25, 0.0, 0.0 }} };
+
+	auto collll = testIn(p1, p2);
+	std::cout << collll.direction.x << " " << collll.direction.y << " " << collll.direction.z << " " << std::endl;
+
+	auto coll = testIn(p, c);
+	std::cout << std::boolalpha << coll.collide << std::endl;
+	auto coll2 = testIn(c, c2);
+	std::cout << std::boolalpha << coll2.collide << std::endl;
+	//double a, b, c, d;
+	//std::cin >> a >> b >> c >> d;
+	//vector4 banana(a, b, c, d);
+	//vector4 limoni = banana;
+	//vec4 limoni = banana * banana;
+	//banana /= limoni;
+	//vector4 lamponi = banana.dot(limoni);
+	//std::cout << lamponi.x << " " << lamponi.y << " " << lamponi.z << " " << lamponi.w << " " << std::endl;
+	//Pad pd;
+	XInput pd;
 	
 	while(true)
 	{

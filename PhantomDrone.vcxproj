@@ -192,7 +192,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>include; remoteApi; $(OH_SDK_BASE)\include;$(OH_SDK_BASE)\utilities\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_USE_MATH_DEFINES;_ALLOW_MSC_VER_MISMATCH;NON_MATLAB_PARSING;MAX_EXT_API_CONNECTIONS=255;_DEBUG;WIN32;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;_USE_MATH_DEFINES;_ALLOW_MSC_VER_MISMATCH;NON_MATLAB_PARSING;MAX_EXT_API_CONNECTIONS=255;_DEBUG;WIN32;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -241,7 +241,7 @@
       <AssemblerListingLocation>.\Debug/</AssemblerListingLocation>
       <ObjectFileName>.\Debug/</ObjectFileName>
       <ProgramDataBaseFileName>.\Debug/</ProgramDataBaseFileName>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
@@ -274,7 +274,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>include; remoteApi;$(OH_SDK_BASE)\include;$(OH_SDK_BASE)\utilities\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_USE_MATH_DEFINES;_ALLOW_MSC_VER_MISMATCH;NON_MATLAB_PARSING;MAX_EXT_API_CONNECTIONS=255;_DEBUG;WIN32;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;_USE_MATH_DEFINES;_ALLOW_MSC_VER_MISMATCH;NON_MATLAB_PARSING;MAX_EXT_API_CONNECTIONS=255;_DEBUG;WIN32;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -286,6 +286,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
+      <OmitDefaultLibName>false</OmitDefaultLibName>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -300,6 +301,8 @@
       <ProgramDatabaseFile>.\Debug/PhantomDrone.pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -359,7 +362,7 @@ copy "$(IntDir)\$(TargetFileName)" "$(SolutionDir)\..\..\bin\$(PlatformName)\HD<
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <AdditionalIncludeDirectories>include; remoteApi; $(OH_SDK_BASE)\include;$(OH_SDK_BASE)\utilities\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_USE_MATH_DEFINES;NON_MATLAB_PARSING;MAX_EXT_API_CONNECTIONS=255;NDEBUG;WIN32;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;_USE_MATH_DEFINES;NON_MATLAB_PARSING;MAX_EXT_API_CONNECTIONS=255;NDEBUG;WIN32;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -445,9 +448,9 @@ copy "$(IntDir)\$(TargetFileName)" "$(SolutionDir)\..\..\bin\$(PlatformName)\HD<
     </Midl>
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
-      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <AdditionalIncludeDirectories>include; remoteApi;$(OH_SDK_BASE)\include;$(OH_SDK_BASE)\utilities\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_USE_MATH_DEFINES;_ALLOW_MSC_VER_MISMATCH;NON_MATLAB_PARSING;MAX_EXT_API_CONNECTIONS=255;NDEBUG;WIN32;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;_USE_MATH_DEFINES;_ALLOW_MSC_VER_MISMATCH;NON_MATLAB_PARSING;MAX_EXT_API_CONNECTIONS=255;NDEBUG;WIN32;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
