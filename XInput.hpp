@@ -26,8 +26,8 @@ class XInput : public HID
 	};
 	CONTROLLER_STATE g_Controllers;
 
-	std::array<double, 3> position;
-	std::array<double, 3> gimbal;
+	vector4 position;
+	vector4 gimbal;
 
 	//std::function<HDCallbackCode HDCALLBACK(void*)> callback;
 	mutable std::mutex device_mutex;
@@ -41,7 +41,7 @@ public:
 		gimbal rad
 	*/
 	StatusStruct Status() override;
-	void Force(std::array<double, 3> f) override;
+	void Force(vector4 f) override;
 
 private:
 	void updateStatus();

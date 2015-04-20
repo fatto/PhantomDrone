@@ -9,35 +9,37 @@ Controller::Controller(Drone& d) : drone(d), t(timer::now()), file("plot.dat")
 	file << "status_angle\tangle\tmin_angle\teuler\tdiff" << std::endl;
 };
 
-void Controller::Go(std::array<double, 3> position, std::array<double, 3> angle)
+void Controller::Go(vector4 position, vector4 angle)
 {
 	t = timer::now();
 	auto status = drone.Status();
 
+	//std::cout << status.position.x << " " << status.position.y << " " << status.position.z << std::endl;
+
 	// vertical
-	double e = position[2] - status.position[2];
+	double e = position.z - status.position.z;
 	cumul = cumul + e;
 	double pv = pParam * e;
-	double thrust = 5.335 + pv + iParam*cumul + dParam*(e - lastE) + status.velocity[2] * vParam;
+	double thrust = 5.335 + pv + iParam*cumul + dParam*(e - lastE) + status.velocity.z * vParam;
 	lastE = e;
 
-	// horizzontal
-	array3d sp = position - status.position;
+	// horizontal
+	vector4 sp = position - status.position;
 	auto ang = status.angle;
-	double c1 = std::cos(ang[0]), c2 = std::cos(ang[1]), c3 = std::cos(ang[2]);
-	double s1 = std::sin(ang[0]), s2 = std::sin(ang[1]), s3 = std::sin(ang[2]);
+	double c1 = std::cos(ang.x), c2 = std::cos(ang.y), c3 = std::cos(ang.z);
+	double s1 = std::sin(ang.x), s2 = std::sin(ang.y), s3 = std::sin(ang.z);
 
-	array3d vx = { c2*c3, c1*s3 + s1*s2*c3, s1*s3 - c1*s2*c3 };
-	array3d vy = { -c2*s3, c1*c3 - s1*s2*s3, s1*c3 + c1*s2*s3 };
-	double alphaE = vy[2];
-	double betaE = vx[2];
+	vector4 vx = { c2*c3, c1*s3 + s1*s2*c3, s1*s3 - c1*s2*c3, 0.0 };
+	vector4 vy = { -c2*s3, c1*c3 - s1*s2*s3, s1*c3 + c1*s2*s3, 0.0 };
+	double alphaE = vy.z;
+	double betaE = vx.z;
 	double alphaCorr = 0.25*alphaE + 2.1*(alphaE - pAlphaE);
 	double betaCorr = -0.25*betaE - 2.1*(betaE - pBetaE);
 	pAlphaE = alphaE;
 	pBetaE = betaE;
 
-	auto disp_x = sp[0] * vx[0] + sp[1] * vx[1];
-	auto disp_y = sp[0] * vy[0] + sp[1] * vy[1];
+	auto disp_x = sp.x * vx.x + sp.y * vx.y;
+	auto disp_y = sp.x * vy.x + sp.y * vy.y;
 	alphaCorr = alphaCorr + disp_y * 0.005 + 1.0 * (disp_y - psp1);
 	betaCorr = betaCorr - disp_x * 0.005 - 1 * (disp_x - psp0);
 	psp1 = disp_y;
@@ -45,17 +47,20 @@ void Controller::Go(std::array<double, 3> position, std::array<double, 3> angle)
 
 
 	// rotational
-	double min_angle = std::acos(std::cos(status.angle[2] - angle[2]));
-	double ct = std::cos(angle[2]), st = std::sin(angle[2]);
+	double min_angle = std::acos(std::cos(status.angle.z - angle.z));
+	double ct = std::cos(angle.z), st = std::sin(angle.z);
 	double euler = std::copysign(min_angle, (s3*ct - c3*st));
 	double rotCorr = euler * 0.1 + 2 * (euler - prevEuler); // positive rotation clockwise
 	prevEuler = euler;
 
-	std::array<double, 4> rotor;
-	rotor[0] = thrust*(1 - alphaCorr + betaCorr + rotCorr);
-	rotor[1] = thrust*(1 - alphaCorr - betaCorr - rotCorr);
-	rotor[2] = thrust*(1 + alphaCorr - betaCorr + rotCorr);
-	rotor[3] = thrust*(1 + alphaCorr + betaCorr - rotCorr);
+	vector4 rotor = {
+		thrust*(1 - alphaCorr + betaCorr + rotCorr),
+		thrust*(1 - alphaCorr - betaCorr - rotCorr),
+		thrust*(1 + alphaCorr - betaCorr + rotCorr),
+		thrust*(1 + alphaCorr + betaCorr - rotCorr)
+	};
+
+	//std::cout << rotor.x << " " << rotor.y << " " << rotor.z << " " << rotor.w << std::endl;
 
 
 	drone.Apply(rotor);

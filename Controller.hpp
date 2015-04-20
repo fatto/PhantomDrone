@@ -31,5 +31,5 @@ public:
 	Controller(Drone& d);
 
 	// we only check the z-axis angle
-	void Go(std::array<double, 3> position, std::array<double, 3> angle);
+	void Go(vector4 position, vector4 angle);
 };

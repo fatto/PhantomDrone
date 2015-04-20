@@ -49,6 +49,7 @@
     <ClInclude Include="XInput.hpp" />
     <ClInclude Include="AlignedAllocator.hpp" />
     <ClInclude Include="Sat.hpp" />
+    <ClInclude Include="HID.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -57,8 +58,5 @@
     <Filter Include="remoteApi">
       <UniqueIdentifier>{9c0955f8-2f5c-4e54-8861-5a20d4539500}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ArrayMath.avx" />
   </ItemGroup>
 </Project>

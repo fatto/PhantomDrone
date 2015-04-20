@@ -33,8 +33,8 @@ Phantom::StatusStruct Phantom::Status()
 
 	return StatusStruct{
 		button,
-		std::array<double,3>{pos_diff[0]*0.001, -pos_diff[2] * 0.001, pos_diff[1] * 0.001},
-		std::array<double,3>{gim_diff[0], gim_diff[1], -gim_diff[2]} // in rads
+		vector4{pos_diff[0]*0.001, -pos_diff[2] * 0.001, pos_diff[1] * 0.001, 0.0},
+		vector4{gim_diff[0], gim_diff[1], -gim_diff[2], 0.0} // in rads
 	};
 }
 //std::array<double, 3> Phantom::Position()
@@ -51,15 +51,15 @@ Phantom::StatusStruct Phantom::Status()
 //	return std::array<double,3>{displacement[0], -displacement[2], displacement[1]};
 //}
 
-void Phantom::Force(std::array<double, 3> f)
+void Phantom::Force(vector4 f)
 {
-	f[0] = clamp(f[0] * 5.0, -max_force, max_force);
-	f[1] = clamp(f[1] * 5.0, -max_force, max_force);
-	f[2] = clamp(f[2] * 5.0, -max_force, max_force);
+	f.x = clamp(f.x * 5.0, -max_force, max_force);
+	f.y = clamp(f.y * 5.0, -max_force, max_force);
+	f.z = clamp(f.z * 5.0, -max_force, max_force);
 
-	std::cout << f[0] << " " << -f[2] << " " << f[1] << std::endl;
+	//std::cout << f.x << " " << -f.z << " " << f.y << std::endl;
 	std::lock_guard<std::mutex> lock(device_mutex);
-	update_force = hduVector3Dd(f[0], -f[2], f[1]);
+	update_force = hduVector3Dd(f.x, -f.z, f.y);
 }
 
 bool Phantom::testDevice()

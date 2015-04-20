@@ -34,7 +34,7 @@ public:
 		gimbal rad
 	*/
 	virtual StatusStruct Status() override;
-	virtual void Force(std::array<double, 3> f) override;
+	virtual void Force(vector4 f) override;
 
 private:
 	bool testDevice();

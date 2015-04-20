@@ -2,15 +2,16 @@
 
 #include <type_traits>
 #include <array>
+#include "ArrayMath.hpp"
 
 struct HID
 {
 	struct StatusStruct
 	{
 		std::array<bool, 2> button;
-		std::array<double, 3> position;
-		std::array<double, 3> gimbal;
+		vector4 position;
+		vector4 gimbal;
 	};
 	virtual StatusStruct Status() = 0;
-	virtual void Force(std::array<double, 3> f) = 0;
+	virtual void Force(vector4 f) = 0;
 };
