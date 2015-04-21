@@ -74,10 +74,20 @@ void Drone::AddCuboid(std::array<double, 3> _position, std::array<double, 3> _an
 	simxInt hand_count;
 	simxCopyPasteObjects(clientID, &cuboid, 1, &hand, &hand_count, simx_opmode_oneshot_wait);
 	// cuboids.push_back(hand[0]);
-	boxs.emplace(hand[0]);
+	boxs.emplace(hand[0],sat::Box());
 	// boxs.emplace_back();
 	simxSetObjectPosition(clientID, hand[0], -1, fposition.data(), simx_opmode_oneshot_wait);
 	simxSetObjectOrientation(clientID, hand[0], hand[0], fangle.data(), simx_opmode_oneshot_wait);
+	boxs[hand[0]].position.x = _position[0];
+	boxs[hand[0]].position.y = _position[1];
+	boxs[hand[0]].position.z = _position[2];
+
+	double c1 = std::cos(_angle[0]), c2 = std::cos(_angle[1]), c3 = std::cos(_angle[2]);
+	double s1 = std::sin(_angle[0]), s2 = std::sin(_angle[1]), s3 = std::sin(_angle[2]);
+	boxs[hand[0]].x_axis = vector4(c2*c3, c1*s3 + s1*s2*c3, s1*s3 - c1*s2*c3, 0.0);
+	boxs[hand[0]].y_axis = vector4(-c2*s3, c1*c3 - s1*s2*s3, s1*c3 + c1*s2*s3, 0.0);
+	boxs[hand[0]].z_axis = vector4(s2, -s1*c2, c1*c2, 0.0);
+	boxs[hand[0]].half_size = vector4(0.25, 0.25, 0.25, 0.0);
 }
 
 Drone::StatusStruct Drone::Status() const
@@ -115,30 +125,52 @@ void Drone::updateStatus()
 	while (simxSynchronousTrigger(clientID) != simx_return_ok); // HACK TO ENABLE PAUSE ON SIM
 
 	std::array<simxFloat, 3> buff;
-	if(simxGetObjectPosition(clientID, quadcopter, -1 /*absolute position*/, buff.data(), simx_opmode_oneshot_wait) == simx_return_ok)
+	//if(simxGetObjectPosition(clientID, quadcopter, -1 /*absolute position*/, buff.data(), simx_opmode_oneshot_wait) == simx_return_ok)
 	// if(simxGetObjectPosition(clientID, quadcopter, -1 /*absolute position*/, buff.data(), simx_opmode_buffer) == simx_return_ok)
-		position = buff;
-	if(simxGetObjectOrientation(clientID, quadcopter, -1 /*absolute angle*/, buff.data(), simx_opmode_oneshot_wait) == simx_return_ok)
+		//position = buff;
+	//if(simxGetObjectOrientation(clientID, quadcopter, -1 /*absolute angle*/, buff.data(), simx_opmode_oneshot_wait) == simx_return_ok)
 	// if(simxGetObjectOrientation(clientID, quadcopter, -1 /*absolute angle*/, buff.data(), simx_opmode_buffer) == simx_return_ok)
-		angle = buff;
+		//angle = buff;
 	// simxGetObjectVelocity(clientID, quadcopter, velocity.data(), rotation.data(), simx_opmode_buffer);
 	if (simxGetObjectVelocity(clientID, quadcopter, buff.data(), rotation.data(), simx_opmode_oneshot_wait) == simx_return_ok)
 		velocity = buff;
 
 
+	simxInt handles_count, *handles, float_count;
+	simxFloat *float_data;
+	simxGetObjectGroupData(clientID, sim_appobj_object_type, 9 /*absolute object position and orientation (euler)*/, &handles_count, &handles, nullptr, nullptr,  &float_count, &float_data, nullptr, nullptr, simx_opmode_oneshot_wait);
+	
+	for (int i = 0; i < handles_count; ++i)
+	{
+		if (handles[i] == quadcopter)
+		{
+			position[0] = float_data[i * 6 + 0];
+			position[1] = float_data[i * 6 + 1];
+			position[2] = float_data[i * 6 + 2];
+			angle[0] = float_data[i * 6 + 3];
+			angle[1] = float_data[i * 6 + 4];
+			angle[2] = float_data[i * 6 + 5];
+		}
+		else if (boxs.find(handles[i]) != boxs.end())
+		{
+			boxs[handles[i]].position.x = float_data[i * 6 + 0];
+			boxs[handles[i]].position.y = float_data[i * 6 + 1];
+			boxs[handles[i]].position.z = float_data[i * 6 + 2];
+			
+			double c1 = std::cos(float_data[i * 6 + 3]), c2 = std::cos(float_data[i * 6 + 4]), c3 = std::cos(float_data[i * 6 + 5]);
+			double s1 = std::sin(float_data[i * 6 + 3]), s2 = std::sin(float_data[i * 6 + 4]), s3 = std::sin(float_data[i * 6 + 5]);
+			boxs[handles[i]].x_axis = vector4(c2*c3, c1*s3 + s1*s2*c3, s1*s3 - c1*s2*c3, 0.0);
+			boxs[handles[i]].y_axis = vector4(-c2*s3, c1*c3 - s1*s2*s3, s1*c3 + c1*s2*s3, 0.0);
+			boxs[handles[i]].z_axis = vector4(s2, -s1*c2, c1*c2, 0.0);
+		}
+	}
 	// collision box update
 	double c1 = std::cos(angle[0]), c2 = std::cos(angle[1]), c3 = std::cos(angle[2]);
 	double s1 = std::sin(angle[0]), s2 = std::sin(angle[1]), s3 = std::sin(angle[2]);
-
 	bbox.position = vector4(position[0], position[1], position[2], 0.0);
 	bbox.x_axis = vector4(c2*c3, c1*s3 + s1*s2*c3, s1*s3 - c1*s2*c3, 0.0);
 	bbox.y_axis = vector4(-c2*s3, c1*c3 - s1*s2*s3, s1*c3 + c1*s2*s3, 0.0);
 	bbox.z_axis = vector4(s2, -s1*c2, c1*c2, 0.0);
-
-	simxInt handles_count, *handles, float_count;
-	simxFloat *float_data;
-	simxGetObjectGroupData(clientID, sim_appobj_object_type, 9 /*absolute object position and orientation*/, nullptr, nullptr,  &float_count, &float_data, nullptr, nullptr, simx_opmode_oneshot_wait);
-	
 
 	// for (decltype(cuboids)::size_type i = 0; i < cuboids.size(); ++i)
 	// {
@@ -169,7 +201,7 @@ void Drone::updateStatus()
 
 	reaction = std::array<double, 3>{react.x, react.y, react.z};
 
-	std::cout << std::boolalpha << coll << " " << reaction[0] << " " << reaction[1] << " " << reaction[2] << std::endl;
+	//std::cout << std::boolalpha << coll << " " << reaction[0] << " " << reaction[1] << " " << reaction[2] << std::endl;
 	//std::cout << signal << std::endl;
 	//assert(simxGetFloatSignal(clientID, "reactionx", &reaction[0], simx_opmode_oneshot_wait) == simx_return_ok);
 	//assert(simxGetFloatSignal(clientID, "reactiony", &reaction[1], simx_opmode_oneshot_wait) == simx_return_ok);

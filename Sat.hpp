@@ -7,6 +7,7 @@
 #include <vector>
 #include <algorithm>
 #include <utility>
+#include <iostream>
 
 namespace sat
 {
@@ -314,29 +315,39 @@ namespace sat
 			std::tuple<vector4, double>{ b1.z_axis.cross(b2.z_axis)/*.normalize()*/, /*std::abs(*/std::abs(T.dot(b1.y_axis)*Rxz - T.dot(b1.x_axis)*Ryz) - (std::abs(b1.half_size.x*Ryz) + std::abs(b1.half_size.y*Rxz) + std::abs(b2.half_size.x*Rzy) + std::abs(b2.half_size.y*Rzx))/*)*/ }
 		};
 
+		auto res = std::find_if(std::begin(proj), std::end(proj), [](const std::tuple<vector4, double>& p) { return std::get<1>(p) > 0.0; });
+		if (res != std::end(proj)) // there's a separation axis
+		{
+			return response;
+		}
+
 		auto vs1 = b1.compute_verticies();
 		auto vs2 = b2.compute_verticies();
 
 		vector4 ax;
 		double min_dist = std::numeric_limits<double>::max();
-		for(auto& t : proj)
+		double poj = 0.0;
+		auto range = std::vector<std::tuple<vector4, double>>(proj.begin() + 3, proj.begin() + 6);
+		for(auto& t : range)
 		{
-			if(std::get<0>(t).length() < 0.01)
-				continue;
-			auto b1_min_max = min_max_projection(std::get<0>(t).normalize(), vs1);
-			auto b2_min_max = min_max_projection(std::get<0>(t).normalize(), vs2);
-			double dist = std::get<0>(b1_min_max) < std::get<0>(b2_min_max) ? std::get<0>(b2_min_max) - std::get<1>(b1_min_max) : std::get<0>(b1_min_max) - std::get<1>(b2_min_max);
-			if(dist > 0.0)
-				return response;
-			dist = std::abs(dist);
+			//auto b1_min_max = min_max_projection(std::get<0>(t).normalize(), vs1);
+			//auto b2_min_max = min_max_projection(std::get<0>(t).normalize(), vs2);
+			//double dist = std::get<0>(b1_min_max) < std::get<0>(b2_min_max) ? std::get<0>(b2_min_max) - std::get<1>(b1_min_max) : std::get<0>(b1_min_max) - std::get<1>(b2_min_max);
+			double dist = std::abs(std::get<1>(t));
+			//std::cout << poj << " ";
 
-			bool change = dist < min_dist;
+			bool change = poj < std::abs(std::get<0>(t).normalize().dot(T));
+			poj = change ? std::abs(std::get<0>(t).normalize().dot(T)) : poj;
 			min_dist = change ? dist : min_dist;
 			ax = change ? std::get<0>(t).normalize() : ax;
 		}
 
+		std::cout << std::endl;
+
 		response.collide = true;
 		response.direction = ax * min_dist;
+		if (response.direction.dot(T) > 0.0)
+			response.direction = -response.direction;
 		return response;
 
 		// vector4 test = lt(min1, min2);
@@ -356,18 +367,18 @@ namespace sat
 		// 	move_axis = (axis&test) + (move_axis&not_test);
 		// }
 
-		auto res = std::find_if(std::begin(proj), std::end(proj), [](const std::tuple<vector4, double>& p) { return std::get<1>(p) > 0.0; } );
-		if (res!= std::end(proj)) // there's a separation axis
-		{
-			return response;
-		}
+		//auto res = std::find_if(std::begin(proj), std::end(proj), [](const std::tuple<vector4, double>& p) { return std::get<1>(p) > 0.0; } );
+		//if (res!= std::end(proj)) // there's a separation axis
+		//{
+		//	return response;
+		//}
 
-		auto collision = std::min_element(std::begin(proj), std::end(proj), [](const std::tuple<vector4, double>& p1, const std::tuple<vector4, double>& p2) { return std::abs(std::get<1>(p1)) < std::abs(std::get<1>(p2)) && std::abs(std::get<1>(p1)) > 0.0; } );
+		//auto collision = std::min_element(std::begin(proj), std::end(proj), [](const std::tuple<vector4, double>& p1, const std::tuple<vector4, double>& p2) { return std::abs(std::get<1>(p1)) < std::abs(std::get<1>(p2)) && std::abs(std::get<1>(p1)) > 0.0; } );
 
-		response.collide = true;
-		response.direction = std::get<0>(*collision) * std::abs(std::get<1>(*collision));
+		//response.collide = true;
+		//response.direction = std::get<0>(*collision) * std::abs(std::get<1>(*collision));
 
-		return response;
+		//return response;
 
 		// // L = b1.x_axis x b2.z_axis
 		// if(gt((T.dot(b1.z_axis)*Ryz - T.dot(b1.y_axis)*Rzz).abs(), (b1.half_size.y*Rzz).abs() + (b1.half_size.z*Ryz).abs() + (b2.half_size.x*Rxy).abs() + (b2.half_size.y*Rxx).abs())

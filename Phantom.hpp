@@ -16,9 +16,9 @@ class Phantom : HID
 {
 	HHD hHD; HDSchedulerHandle gCallbackHandle;
 	std::array<bool, 2> button;
-	hduVector3Dd start_position, position;
+	hduVector3Dd start_position, position, offset_position;
 	hduVector3Dd update_force;
-	hduVector3Dd start_gimbal, gimbal;
+	hduVector3Dd start_gimbal, gimbal, offset_gimbal;
 
 	HDdouble max_force;
 

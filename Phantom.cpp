@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-Phantom::Phantom() : start_position(0, 0, 0), position(0, 0, 0), update_force(0, 0, 0), start_gimbal(0, 0, 0), gimbal(0, 0, 0), max_force(0)
+Phantom::Phantom() : start_position(0, 0, 0), position(0, 0, 0), offset_position(0,0,0), update_force(0, 0, 0), start_gimbal(0, 0, 0), gimbal(0, 0, 0), offset_gimbal(0,0,0), max_force(0)
 {
 	hHD = hdInitDevice(HD_DEFAULT_DEVICE);
 	testDevice();
@@ -28,12 +28,15 @@ Phantom::StatusStruct Phantom::Status()
 	std::lock_guard<std::mutex> lock(device_mutex);
 	hduVector3Dd pos_diff;
 	hduVecSubtract(pos_diff, position, start_position);
+	hduVecAdd(pos_diff, pos_diff, offset_position);
 	hduVector3Dd gim_diff;
 	hduVecSubtract(gim_diff, gimbal, start_gimbal);
+	hduVecAdd(gim_diff, gim_diff, offset_gimbal);
 
+	//std::cout << pos_diff[0] * 0.01 << " " << -pos_diff[2] * 0.01 << " " << pos_diff[1] * 0.01 << " " << - gim_diff[2] << std::endl;
 	return StatusStruct{
 		button,
-		vector4{pos_diff[0]*0.001, -pos_diff[2] * 0.001, pos_diff[1] * 0.001, 0.0},
+		vector4{pos_diff[0]*0.01, -pos_diff[2] * 0.01, pos_diff[1] * 0.01, 0.0},
 		vector4{gim_diff[0], gim_diff[1], -gim_diff[2], 0.0} // in rads
 	};
 }
@@ -57,9 +60,9 @@ void Phantom::Force(vector4 f)
 	f.y = clamp(f.y * 5.0, -max_force, max_force);
 	f.z = clamp(f.z * 5.0, -max_force, max_force);
 
-	//std::cout << f.x << " " << -f.z << " " << f.y << std::endl;
+	//std::cout << f.x << " " << f.y << " " << f.z << std::endl;
 	std::lock_guard<std::mutex> lock(device_mutex);
-	update_force = hduVector3Dd(f.x, -f.z, f.y);
+	update_force = hduVector3Dd(f.x, f.z, -f.y);
 }
 
 bool Phantom::testDevice()
@@ -106,7 +109,7 @@ HDCallbackCode HDCALLBACK Phantom::monitorDevice(void *pUserData)
 	Phantom* device = static_cast<Phantom*>(pUserData);
 	std::lock_guard<std::mutex> lock(device->device_mutex);
 
-	HDint nCurrentButtons;
+	HDint nCurrentButtons, nLasButons;
 
 	hdMakeCurrentDevice(device->hHD);
 	hdBeginFrame(hdGetCurrentDevice());
@@ -115,15 +118,28 @@ HDCallbackCode HDCALLBACK Phantom::monitorDevice(void *pUserData)
 	hdGetDoublev(HD_CURRENT_GIMBAL_ANGLES, device->gimbal);
 
 	hdGetIntegerv(HD_CURRENT_BUTTONS, &nCurrentButtons);
+	hdGetIntegerv(HD_LAST_BUTTONS, &nLasButons);
 	device->button[0] = nCurrentButtons & HD_DEVICE_BUTTON_1;
 	device->button[1] = nCurrentButtons & HD_DEVICE_BUTTON_2;
 
-	if ((nCurrentButtons & HD_DEVICE_BUTTON_1) == 0)
+	if (!(nCurrentButtons & HD_DEVICE_BUTTON_1))
 	{
+		if ((nLasButons & HD_DEVICE_BUTTON_1))
+		{
+			hduVector3Dd pos_diff;
+			hduVecSubtract(pos_diff, device->position, device->start_position);
+			hduVecAdd(device->offset_position, device->offset_position, pos_diff);
+		}
 		memcpy(device->start_position, device->position, sizeof(hduVector3Dd));
 	}
-	if ((nCurrentButtons & HD_DEVICE_BUTTON_2) == 0)
+	if (!(nCurrentButtons & HD_DEVICE_BUTTON_2))
 	{
+		if ((nLasButons & HD_DEVICE_BUTTON_2))
+		{
+			hduVector3Dd gim_diff;
+			hduVecSubtract(gim_diff, device->gimbal, device->start_gimbal);
+			hduVecAdd(device->offset_gimbal, device->offset_gimbal, gim_diff);
+		}
 		memcpy(device->start_gimbal, device->gimbal, sizeof(hduVector3Dd));
 	}
 
