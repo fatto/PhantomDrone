@@ -73,8 +73,9 @@ void Drone::AddCuboid(std::array<double, 3> _position, std::array<double, 3> _an
 	simxInt* hand;
 	simxInt hand_count;
 	simxCopyPasteObjects(clientID, &cuboid, 1, &hand, &hand_count, simx_opmode_oneshot_wait);
-	cuboids.push_back(hand[0]);
-	boxs.emplace_back();
+	// cuboids.push_back(hand[0]);
+	boxs.emplace(hand[0]);
+	// boxs.emplace_back();
 	simxSetObjectPosition(clientID, hand[0], -1, fposition.data(), simx_opmode_oneshot_wait);
 	simxSetObjectOrientation(clientID, hand[0], hand[0], fangle.data(), simx_opmode_oneshot_wait);
 }
@@ -133,31 +134,35 @@ void Drone::updateStatus()
 	bbox.x_axis = vector4(c2*c3, c1*s3 + s1*s2*c3, s1*s3 - c1*s2*c3, 0.0);
 	bbox.y_axis = vector4(-c2*s3, c1*c3 - s1*s2*s3, s1*c3 + c1*s2*s3, 0.0);
 	bbox.z_axis = vector4(s2, -s1*c2, c1*c2, 0.0);
+
+	simxInt handles_count, *handles, float_count;
+	simxFloat *float_data;
+	simxGetObjectGroupData(clientID, sim_appobj_object_type, 9 /*absolute object position and orientation*/, nullptr, nullptr,  &float_count, &float_data, nullptr, nullptr, simx_opmode_oneshot_wait);
 	
 
-	for (decltype(cuboids)::size_type i = 0; i < cuboids.size(); ++i)
-	{
-		std::array<float, 3> pos, ang;
-		//if(simxGetObjectPosition(clientID, cuboids[i], -1 /*absolute position*/, buff.data(), simx_opmode_buffer) == simx_return_ok)
-		if (simxGetObjectPosition(clientID, cuboids[i], -1 /*absolute position*/, buff.data(), simx_opmode_oneshot_wait) == simx_return_ok)
-			pos = buff;
-		//if(simxGetObjectOrientation(clientID, cuboids[i], -1 /*absolute angle*/, buff.data(), simx_opmode_buffer) == simx_return_ok)
-		if (simxGetObjectPosition(clientID, cuboids[i], -1 /*absolute position*/, buff.data(), simx_opmode_oneshot_wait) == simx_return_ok)
-			ang = buff;
-		c1 = std::cos(ang[0]); c2 = std::cos(ang[1]); c3 = std::cos(ang[2]);
-		s1 = std::sin(ang[0]); s2 = std::sin(ang[1]); s3 = std::sin(ang[2]);
+	// for (decltype(cuboids)::size_type i = 0; i < cuboids.size(); ++i)
+	// {
+	// 	std::array<float, 3> pos, ang;
+	// 	//if(simxGetObjectPosition(clientID, cuboids[i], -1 /*absolute position*/, buff.data(), simx_opmode_buffer) == simx_return_ok)
+	// 	if (simxGetObjectPosition(clientID, cuboids[i], -1 /*absolute position*/, buff.data(), simx_opmode_oneshot_wait) == simx_return_ok)
+	// 		pos = buff;
+	// 	//if(simxGetObjectOrientation(clientID, cuboids[i], -1 /*absolute angle*/, buff.data(), simx_opmode_buffer) == simx_return_ok)
+	// 	if (simxGetObjectPosition(clientID, cuboids[i], -1 /*absolute position*/, buff.data(), simx_opmode_oneshot_wait) == simx_return_ok)
+	// 		ang = buff;
+	// 	c1 = std::cos(ang[0]); c2 = std::cos(ang[1]); c3 = std::cos(ang[2]);
+	// 	s1 = std::sin(ang[0]); s2 = std::sin(ang[1]); s3 = std::sin(ang[2]);
 
-		boxs[i].position = vector4(pos[0], pos[1], pos[2], 0.0);
-		boxs[i].x_axis = vector4(c2*c3, c1*s3 + s1*s2*c3, s1*s3 - c1*s2*c3, 0.0);
-		boxs[i].y_axis = vector4(-c2*s3, c1*c3 - s1*s2*s3, s1*c3 + c1*s2*s3, 0.0);
-		boxs[i].z_axis = vector4(s2, -s1*c2, c1*c2, 0.0);
-		boxs[i].half_size = vector4(0.1, 0.1, 0.1, 0.0);
-	}
+	// 	boxs[i].position = vector4(pos[0], pos[1], pos[2], 0.0);
+	// 	boxs[i].x_axis = vector4(c2*c3, c1*s3 + s1*s2*c3, s1*s3 - c1*s2*c3, 0.0);
+	// 	boxs[i].y_axis = vector4(-c2*s3, c1*c3 - s1*s2*s3, s1*c3 + c1*s2*s3, 0.0);
+	// 	boxs[i].z_axis = vector4(s2, -s1*c2, c1*c2, 0.0);
+	// 	boxs[i].half_size = vector4(0.1, 0.1, 0.1, 0.0);
+	// }
 
 	vector4 react(0.0); bool coll = false;
 	for (auto& b : boxs)
 	{
-		auto r = sat::testIn(bbox, b);
+		auto r = sat::testIn(bbox, std::get<1>(b));
 		react += r.direction;
 		coll |= r.collide;
 	}

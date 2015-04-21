@@ -11,6 +11,7 @@ extern "C" {
 #include <atomic>
 #include <array>
 #include <vector>
+#include <unordered_map>
 
 #include "Sat.hpp"
 
@@ -19,9 +20,9 @@ class Drone
 	simxInt clientID;
 	simxInt quadcopter;
 	simxInt cuboid;
-	std::vector<simxInt> cuboids;
+	// std::vector<simxInt> cuboids;
 	sat::Box bbox;
-	std::vector<sat::Box> boxs;
+	std::unordered_map<simxInt, sat::Box> boxs;
 	//simxFloat quadposition[3];
 	//simxInt targetobj;
 	/*simxInt propeller[4];*/
